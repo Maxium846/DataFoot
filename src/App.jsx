@@ -1,13 +1,12 @@
-
-import './App.css'
-
+import React from "react";
+import ListClubs from "./component/clubs/ListClubs"
 function App() {
-
   return (
-    <>
-      <h1>Hello</h1>
-    </>
-  )
+    <div style={{ padding: "20px" }}>
+      <h1>Liste des Clubs</h1>
+     <ListClubs></ListClubs>
+    </div>
+  );
 }
 
-export default App
+export default App;
