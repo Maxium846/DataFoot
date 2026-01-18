@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createClub, getClubs } from "../api/api";
+import { createClub, deleteClub, getClubs } from "../api/api";
 
 const useClubs = () => {
   const [clubs, setClubs] = useState([]);
@@ -18,11 +18,21 @@ const useClubs = () => {
     const created = await createClub(club);
     setClubs([...clubs, created]);
   }
+
+  async function handleDelete(id){
+
+   if(!window.confirm("Supprimer ce club"))return;
+
+   await deleteClub(id)
+   setClubs(clubs.filter((club) =>club.id !== id))
+  }
+
   return {
     clubs,
     loading,
     error,
-    addClub
+    addClub,
+    handleDelete
   };
 };
 

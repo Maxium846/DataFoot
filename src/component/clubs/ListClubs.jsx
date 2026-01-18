@@ -3,7 +3,7 @@ import ClubForm from "./ClubForm";
 
 export default function ClubList() {
  
-const {clubs,addClub} = useClubs();
+const {clubs,addClub,handleDelete} = useClubs();
 
   return (
     <div>
@@ -13,7 +13,6 @@ const {clubs,addClub} = useClubs();
           <th>Nom</th>
           <th>Ligue</th>
           <th>Pays</th>
-          <th>Joueur</th>
         </tr>
       </thead>
       <tbody>
@@ -26,6 +25,9 @@ const {clubs,addClub} = useClubs();
         {club.player && club.player.length > 0
           ? club.player.map(play => play.name).join(", ")
           : "Aucun joueur"}
+      </td>
+      <td>
+      <button onClick={()=>handleDelete(club.id)}>Supprimer</button>
       </td>
           </tr>
         ))}

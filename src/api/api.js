@@ -14,3 +14,9 @@ export async function createClub(club) {
   });
   return res.json();
 }
+
+export async function deleteClub(id) {
+ return  await fetch("http://localhost:8081/api/clubs/" + id, {
+    method: "DELETE",
+  });
+}
