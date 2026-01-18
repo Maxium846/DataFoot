@@ -14,13 +14,13 @@ onSubmit(form)
 setForm({name :"", league : "" , country :""})
 
 } 
-const handleChange = (e) =>{ setForm({...form , [e.target.value] : e.target.value})}
+const handleChange = (e) =>{ setForm({...form , [e.target.name] : e.target.value})}
 return(
 
 <form onSubmit={handleSubmit}>
-      <input type="text" name="name" onChange={(e)=>setForm({...form, name : e.target.value})} value={form.name} />
-      <input name="league" onChange={(e)=>setForm({...form, league : e.target.value})} value={form.league} />
-      <input name="country" onChange={(e)=>setForm({...form, country : e.target.value})} value={form.country} />
+      <input type="text" name="name"placeholder="Name" onChange={handleChange} value={form.name} />
+      <input name="league" placeholder="League" onChange={handleChange} value={form.league} />
+      <input name="country" placeholder="Country" onChange={handleChange} value={form.country} />
       <button>Ajouter</button>
     </form>
   );
