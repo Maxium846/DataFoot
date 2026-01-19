@@ -1,4 +1,7 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -9,8 +12,9 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
-import { Link } from "react-router-dom";
 import { Box } from "@mui/system";
+import { getAllLeague } from "../../api/leaguesApi";
+
 
 const pages = [
   { name: "Accueil", path: "/" },
@@ -20,34 +24,30 @@ const pages = [
   { name: "Équipes", path: "/equipe" },
 ];
 
-const championnatSubPages = [
-  { name: "Premier League", path: "/premier-league" },
-  { name: "Ligue 1", path: "/ligue-1" },
-  { name: "La Liga", path: "/la-liga" },
-  { name: "Serie A", path: "/Serie A" },
-  { name: "BundeLigue A", path: "/BundesLigueA" },
-];
-
 export default function Entete() {
-  // Menu mobile
+  // États pour les menus MUI
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElChampionnat, setAnchorElChampionnat] = React.useState(null);
+
   const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
   const handleCloseNavMenu = () => setAnchorElNav(null);
 
-  // Menu Championnat
-  const [anchorElChampionnat, setAnchorElChampionnat] = React.useState(null);
   const handleOpenChampionnatMenu = (event) =>
     setAnchorElChampionnat(event.currentTarget);
   const handleCloseChampionnatMenu = () => setAnchorElChampionnat(null);
+
+  // ⚡ Dynamic leagues
+  const [leagues, setLeagues] = useState([]);
+  useEffect(() => {
+    getAllLeague().then(setLeagues);
+  }, []);
 
   return (
     <AppBar position="sticky" sx={{ backgroundColor: "#37003c" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* Logo Desktop */}
-          <SportsSoccerIcon
-            sx={{ mr: 1, display: { xs: "none", md: "flex" } }}
-          />
+          <SportsSoccerIcon sx={{ mr: 1, display: { xs: "none", md: "flex" } }} />
           <Typography
             variant="h6"
             component={Link}
@@ -100,14 +100,14 @@ export default function Entete() {
                     </MenuItem>
                   );
                 } else {
-                  return championnatSubPages.map((subPage) => (
+                  return leagues.map((league) => (
                     <MenuItem
-                      key={subPage.name}
+                      key={league.id}
                       component={Link}
-                      to={subPage.path}
+                      to={`/championnat/${league.id}`}
                       onClick={handleCloseNavMenu}
                     >
-                      {subPage.name}
+                      {league.name}
                     </MenuItem>
                   ));
                 }
@@ -116,9 +116,7 @@ export default function Entete() {
           </Box>
 
           {/* Logo Mobile */}
-          <SportsSoccerIcon
-            sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
-          />
+          <SportsSoccerIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h6"
             component={Link}
@@ -183,14 +181,14 @@ export default function Entete() {
               anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
               transformOrigin={{ vertical: "top", horizontal: "left" }}
             >
-              {championnatSubPages.map((subPage) => (
+              {leagues.map((league) => (
                 <MenuItem
-                  key={subPage.name}
+                  key={league.id}
                   component={Link}
-                  to={subPage.path}
+                  to={`/championnat/${league.id}`}
                   onClick={handleCloseChampionnatMenu}
                 >
-                  {subPage.name}
+                  {league.name}
                 </MenuItem>
               ))}
             </Menu>

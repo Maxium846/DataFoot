@@ -1,39 +1,24 @@
 import { useEffect, useState } from "react";
-import { createClub, deleteClub, getClubs } from "../api/api";
+import {getLeagueDetailById } from "../api/leaguesApi";
 
-const useClubs = () => {
+export default function useClubs(leagueId) {
   const [clubs, setClubs] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getClubs()
-      .then((data) => setClubs(data))
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, []);
+    if (!leagueId) return;
 
+    getLeagueDetailById(leagueId)
+      .then(setClubs)
+      .catch(console.error);
+  }, [leagueId]);
 
-  async function addClub(club) {
-    const created = await createClub(club);
-    setClubs([...clubs, created]);
-  }
-
-  async function handleDelete(id){
-
-   if(!window.confirm("Supprimer ce club"))return;
-
-   await deleteClub(id)
-   setClubs(clubs.filter((club) =>club.id !== id))
-  }
-
-  return {
-    clubs,
-    loading,
-    error,
-    addClub,
-    handleDelete
+  const addClub = (club) => {
+    setClubs((prev) => [...prev, club]);
   };
-};
 
-export default useClubs;
+  const handleDelete = (id) => {
+    setClubs((prev) => prev.filter((club) => club.id !== id));
+  };
+
+  return { clubs, addClub, handleDelete, setClubs};
+}
