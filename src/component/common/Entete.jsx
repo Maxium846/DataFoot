@@ -16,18 +16,18 @@ import { Box } from "@mui/system";
 import { getAllLeague } from "../../api/leaguesApi";
 
 
+
 const pages = [
   { name: "Accueil", path: "/" },
-  { name: "Championnat", path: "/classementPage" },
   { name: "Stats", path: "/stats" },
   { name: "Calendrier", path: "/calendrierPL" },
   { name: "Équipes", path: "/equipe" },
 ];
 
 export default function Entete() {
-  // États pour les menus MUI
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElChampionnat, setAnchorElChampionnat] = React.useState(null);
+  // États pour menus
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElChampionnat, setAnchorElChampionnat] = useState(null);
 
   const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
   const handleCloseNavMenu = () => setAnchorElNav(null);
@@ -36,16 +36,18 @@ export default function Entete() {
     setAnchorElChampionnat(event.currentTarget);
   const handleCloseChampionnatMenu = () => setAnchorElChampionnat(null);
 
-  // ⚡ Dynamic leagues
+  // ⚡ Chargement dynamique des ligues
   const [leagues, setLeagues] = useState([]);
   useEffect(() => {
-    getAllLeague().then(setLeagues);
+    getAllLeague()
+      .then((data) => setLeagues(data))
+      .catch((err) => console.error("Erreur lors du chargement des ligues", err));
   }, []);
 
   return (
     <AppBar position="sticky" sx={{ backgroundColor: "#37003c" }}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
+      <Container maxWidth={false}> {/* ← full width */}
+        <Toolbar disableGutters sx={{ width: "100%" }}>
           {/* Logo Desktop */}
           <SportsSoccerIcon sx={{ mr: 1, display: { xs: "none", md: "flex" } }} />
           <Typography
@@ -85,33 +87,27 @@ export default function Entete() {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
             >
-              {pages.map((page) => {
-                if (page.name !== "Championnat") {
-                  return (
-                    <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                      <Typography
-                        component={Link}
-                        to={page.path}
-                        sx={{ textDecoration: "none", color: "inherit" }}
-                        textAlign="center"
-                      >
-                        {page.name}
-                      </Typography>
-                    </MenuItem>
-                  );
-                } else {
-                  return leagues.map((league) => (
-                    <MenuItem
-                      key={league.id}
-                      component={Link}
-                      to={`/championnat/${league.id}`}
-                      onClick={handleCloseNavMenu}
-                    >
-                      {league.name}
-                    </MenuItem>
-                  ));
-                }
-              })}
+              {pages.map((page) => (
+                <MenuItem
+                  key={page.name}
+                  component={Link}
+                  to={page.path}
+                  onClick={handleCloseNavMenu}
+                >
+                  {page.name}
+                </MenuItem>
+              ))}
+              {/* Menu déroulant ligues */}
+              {leagues.map((league) => (
+                <MenuItem
+                  key={league.id}
+                  component={Link}
+                  to={`/championnat/${league.id}`}
+                  onClick={handleCloseNavMenu}
+                >
+                  {league.name}
+                </MenuItem>
+              ))}
             </Menu>
           </Box>
 
@@ -134,46 +130,38 @@ export default function Entete() {
 
           {/* Menu Desktop */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => {
-              if (page.name !== "Championnat") {
-                return (
-                  <Button
-                    key={page.name}
-                    component={Link}
-                    to={page.path}
-                    sx={{
-                      my: 2,
-                      color: "white",
-                      display: "block",
-                      fontWeight: "bold",
-                      textTransform: "none",
-                      "&:hover": { backgroundColor: "#5e1b76" },
-                    }}
-                  >
-                    {page.name}
-                  </Button>
-                );
-              } else {
-                return (
-                  <Button
-                    key={page.name}
-                    onClick={handleOpenChampionnatMenu}
-                    sx={{
-                      my: 2,
-                      color: "white",
-                      display: "block",
-                      fontWeight: "bold",
-                      textTransform: "none",
-                      "&:hover": { backgroundColor: "#5e1b76" },
-                    }}
-                  >
-                    {page.name}
-                  </Button>
-                );
-              }
-            })}
+            {pages.map((page) => (
+              <Button
+                key={page.name}
+                component={Link}
+                to={page.path}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  fontWeight: "bold",
+                  textTransform: "none",
+                  "&:hover": { backgroundColor: "#5e1b76" },
+                }}
+              >
+                {page.name}
+              </Button>
+            ))}
 
-            {/* Menu déroulant Championnat */}
+            <Button
+              onClick={handleOpenChampionnatMenu}
+              sx={{
+                my: 2,
+                color: "white",
+                display: "block",
+                fontWeight: "bold",
+                textTransform: "none",
+                "&:hover": { backgroundColor: "#5e1b76" },
+              }}
+            >
+              Championnats
+            </Button>
+
             <Menu
               anchorEl={anchorElChampionnat}
               open={Boolean(anchorElChampionnat)}

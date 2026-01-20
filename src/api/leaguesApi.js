@@ -1,19 +1,17 @@
 const BASE_URL = "http://localhost:8081/api";
 
-export async function getAllLeague(){
-
-try {
+export async function getAllLeague() {
+  try {
     const response = await fetch("http://localhost:8081/api/leagues");
 
-    if(!response.ok){
-
-        throw new Error("Erreur lors de la récupération des ligues")
+    if (!response.ok) {
+      throw new Error("Erreur lors de la récupération des ligues");
     }
-    return  response.json()
-}catch(error){
+    return response.json();
+  } catch (error) {
     console.error(error);
-    return []
-}
+    return [];
+  }
 }
 export async function getLeagueById(id) {
   try {
@@ -28,14 +26,11 @@ export async function getLeagueById(id) {
   }
 }
 
-export async function getLeagueDetailById(id){
-
-  const res = await fetch("http://localhost:8081/api/leagues/" + id)
-  if(!res.ok){
-
-        throw new Error("Erreur lors du chargement des clubs");
-
+export async function getLeagueDetailById(id) {
+  const res = await fetch("http://localhost:8081/api/leagues/" + id);
+  if (!res.ok) {
+    throw new Error("Erreur lors du chargement des clubs");
   }
-
-  return res.json()
+ 
+  return res.json();
 }

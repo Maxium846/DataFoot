@@ -1,40 +1,15 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
 import ClubForm from "./ClubForm";
-import useClubs from "../../hooks/useClubs";
-import { getLeagueById } from "../../api/leaguesApi";
-
+import useClubs from "../../hooks/useLeagues";
 export default function ClubList() {
   const { leagueId } = useParams();
-
   // State pour le nom de la ligue
-  const [leagueName, setLeagueName] = useState("");
 
   // Hook pour gérer les clubs
-  const { clubs, addClub, handleDelete, setClubs } = useClubs(leagueId);
+  const { clubs, addClub, handleDelete,leagueName } = useClubs(leagueId);
 
   // Charger le nom de la ligue et ses clubs depuis le backend
-  useEffect(() => {
-    if (!leagueId) return;
-
-    // Récupère la ligue
-    getLeagueById(leagueId)
-      .then((data) => {
-        setLeagueName(data?.name || "");
-
-        // ⚡ Assure-toi que clubs est un tableau
-        if (Array.isArray(data?.clubs)) {
-          setClubs(data.clubs);
-        } else {
-          setClubs([]);
-        }
-      })
-      .catch((err) => {
-        console.error("Erreur lors du chargement de la ligue:", err);
-        setLeagueName("");
-        setClubs([]);
-      });
-  }, [leagueId, setClubs]);
+  
 
   return (
     <div>
@@ -48,12 +23,14 @@ export default function ClubList() {
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(clubs) && clubs.length > 0 ? (
+          {clubs.length > 0 ? (
             clubs.map((club) => (
               <tr key={club.id}>
                 <td>{club.name}</td>
                 <td>
-                  <button onClick={() => handleDelete(club.id)}>Supprimer</button>
+                  <button onClick={() => handleDelete(club.id)}>
+                    Supprimer
+                  </button>
                 </td>
               </tr>
             ))
