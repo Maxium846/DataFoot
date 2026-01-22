@@ -13,7 +13,7 @@ export async function getAllLeague() {
     return [];
   }
 }
-export async function getLeagueById(id) {
+export async function geClubByLeagueById(id) {
   try {
     const response = await fetch(`${BASE_URL}/leagues/${id}`);
     if (!response.ok) {
@@ -26,11 +26,16 @@ export async function getLeagueById(id) {
   }
 }
 
-export async function getLeagueDetailById(id) {
-  const res = await fetch("http://localhost:8081/api/leagues/" + id);
-  if (!res.ok) {
-    throw new Error("Erreur lors du chargement des clubs");
+export async function getClassementByLeague(leagueId) {
+  try {
+    const res = await fetch(`${BASE_URL}/leagues/${leagueId}/classement`);
+
+    if (!res.ok) {
+      throw new Error("Erreur lors du chargement du classement");
+    }
+    return await res.json();
+  } catch (error) {
+    console.log(error);
+    return null;
   }
- 
-  return res.json();
 }

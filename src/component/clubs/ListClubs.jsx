@@ -3,11 +3,12 @@ import ClubForm from "./ClubForm";
 import useClubs from "../../hooks/useLeagues";
 export default function ClubList() {
   const { leagueId } = useParams();
+
   // State pour le nom de la ligue
 
   // Hook pour gérer les clubs
   const { clubs, addClub, handleDelete,leagueName } = useClubs(leagueId);
-
+console.log(clubs)
   // Charger le nom de la ligue et ses clubs depuis le backend
   
 
@@ -43,7 +44,7 @@ export default function ClubList() {
       </table>
 
       <h3>Ajouter un club</h3>
-      <ClubForm onSubmit={addClub} />
+      <ClubForm onSubmit={addClub} leagueId={leagueId} />
     </div>
   );
 }
