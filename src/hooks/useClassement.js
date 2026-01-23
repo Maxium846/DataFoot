@@ -6,6 +6,7 @@ export default function useClassement(leagueId) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  //se déclare au premier rendu et a chaque changement de leagueId
   useEffect(() => {
     if (!leagueId) return;
 
@@ -17,6 +18,7 @@ export default function useClassement(leagueId) {
 
         const data = await getClassementByLeague(leagueId);
 
+//        console.log("📦 Données brutes API :", data);
         // Remplace l’ancien classement par le nouveau
         setClassement(Array.isArray(data) ? data : []);
       } catch (err) {
@@ -26,9 +28,11 @@ export default function useClassement(leagueId) {
       } finally {
         setLoading(false);
       }
+      
     };
 
     fetchClassement();
+    
   }, [leagueId]);
 
   return { classement, loading, error };

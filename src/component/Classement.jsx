@@ -1,13 +1,15 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useClassement from "../hooks/useClassement";
-
+import "../css/classement.css";
 export default function Classement() {
   const { leagueId } = useParams();
   const { classement } = useClassement(leagueId);
+  
 
+  const navigate = useNavigate();
   return (
-    <div>
-      <h2>Classement</h2>
+    <div className="classement-container">
+      <h2 className="classement-title">Classement</h2>
 
 <buttonn><Link to={`/championnat/${leagueId}/clubs`}>
   Voir les clubs
@@ -15,7 +17,7 @@ export default function Classement() {
       {classement.length === 0 ? (
         <p>Aucun classement disponible</p>
       ) : (
-        <table border="1">
+        <table className="classement-table" border="1">
           <thead>
             <tr>
               <th>#</th>
@@ -34,7 +36,8 @@ export default function Classement() {
             {classement.map((c, index) => (
               <tr key={c.clubId}>
                 <td>{index + 1}</td>
-                <td>{c.clubName}</td>
+                <td  onClick={() => navigate(`/clubs/${c.clubId}`)}
+                style={{ cursor: "pointer", color: "blue" }}>{c.clubName}</td>
                 <td>{c.points}</td>
                 <td>{c.played}</td>
                 <td>{c.wins}</td>
