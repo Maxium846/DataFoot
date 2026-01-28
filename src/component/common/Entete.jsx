@@ -15,17 +15,7 @@ import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import { Box } from "@mui/system";
 import { getAllLeague } from "../../api/leaguesApi";
 
-
-
-const pages = [
-  { name: "Accueil", path: "/" },
-  { name: "Stats", path: "/stats" },
-  { name: "Calendrier", path: "/calendrierPL" },
-  { name: "Équipes", path: "/equipe" },
-];
-
 export default function Entete() {
-  // États pour menus
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElChampionnat, setAnchorElChampionnat] = useState(null);
 
@@ -36,17 +26,28 @@ export default function Entete() {
     setAnchorElChampionnat(event.currentTarget);
   const handleCloseChampionnatMenu = () => setAnchorElChampionnat(null);
 
-  // ⚡ Chargement dynamique des ligues
   const [leagues, setLeagues] = useState([]);
   useEffect(() => {
     getAllLeague()
       .then((data) => setLeagues(data))
-      .catch((err) => console.error("Erreur lors du chargement des ligues", err));
+      .catch((err) => console.error("Erreur chargement ligues :", err));
   }, []);
+
+  // ⚡ Cherche automatiquement la Premier League
+
+  const pages = [
+    { name: "Accueil", path: "/" },
+    { name: "Stats", path: "/stats" },
+    {
+      name: "Calendrier",
+      path: "/calendrier",
+    },
+    { name: "Équipes", path: "/equipe" },
+  ];
 
   return (
     <AppBar position="sticky" sx={{ backgroundColor: "#37003c" }}>
-      <Container maxWidth={false}> {/* ← full width */}
+      <Container maxWidth={false}>
         <Toolbar disableGutters sx={{ width: "100%" }}>
           {/* Logo Desktop */}
           <SportsSoccerIcon sx={{ mr: 1, display: { xs: "none", md: "flex" } }} />
@@ -97,7 +98,8 @@ export default function Entete() {
                   {page.name}
                 </MenuItem>
               ))}
-              {/* Menu déroulant ligues */}
+
+              {/* Menu Championnats mobile */}
               {leagues.map((league) => (
                 <MenuItem
                   key={league.id}
@@ -148,6 +150,7 @@ export default function Entete() {
               </Button>
             ))}
 
+            {/* Bouton Championnats Desktop */}
             <Button
               onClick={handleOpenChampionnatMenu}
               sx={{

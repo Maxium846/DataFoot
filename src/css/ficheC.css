@@ -1,0 +1,52 @@
+.fiche-club-container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 2px solid #37003c;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
+
+.back-btn {
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #37003c;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background-color: #5e1b76;
+}
+
+.club-name {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #37003c;
+}
+
+.vertical-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 5px;
+  background-color: #eee;
+}
+
+.stat .label {
+  font-weight: bold;
+  color: #37003c;
+}
+
+.stat .value {
+  color: #111;
+}

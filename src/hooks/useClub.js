@@ -15,7 +15,7 @@ export default function useClub(clubId) {
         setError(null);
 
         const data = await getFicheClubs(clubId);
-        console.log("📦 Fiche club reçue :", data);
+        //console.log("📦 Fiche club reçue :", data);
 
         setFicheClub(data);
       } catch (err) {
