@@ -1,7 +1,14 @@
+.page {
+  height: 100vh;      /* hauteur de l’écran */
+  display: flex;
+  flex-direction: column;
+}
+
 .classement-container {
   max-width: 800px;
   margin: 40px auto;
   padding: 20px;
+  flex: 0.5;
 }
 
 .classement-title {
@@ -9,15 +16,18 @@
   font-size: 24px;
   margin-bottom: 20px;
   font-weight: 600;
+
 }
 
 .classement-table {
-  width: 100%;
+  width: 50%;
   border-collapse: collapse;
   background: white;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  margin-left: 450px;
+
 }
 
 .classement-table thead {

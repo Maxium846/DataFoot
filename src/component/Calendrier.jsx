@@ -16,6 +16,7 @@ const Calendrier = () => {
   const [classement, setClassement] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [view, setView] = useState("classement"); // ⚡ "classement" ou "calendrier"
 
   // 🔄 Chargement des données
   const fetchData = useCallback(async () => {
@@ -43,9 +44,27 @@ const Calendrier = () => {
   }, [fetchData]);
 
   // 🔄 Mettre à jour un score
+  const handleScoreChange = async (matchId, homeGoals, awayGoals) => {
+    try {
+      const updatedClassement = await updateMatchScore(
+        matchId,
+        homeGoals,
+        awayGoals
+      );
 
+      setClassement(updatedClassement);
 
-
+      setMatches((prevMatches) =>
+        prevMatches.map((m) =>
+          m.id === matchId
+            ? { ...m, homeGoals, awayGoals, played: true }
+            : m
+        )
+      );
+    } catch (err) {
+      console.error("Erreur update score :", err);
+    }
+  };
 
   // 🔄 Générer le calendrier
   const handleGenerateCalendar = async () => {
@@ -60,27 +79,8 @@ const Calendrier = () => {
       setLoading(false);
     }
   };
-const handleScoreChange = async (matchId, homeGoals, awayGoals) => {
-  try {
-    // 1️⃣ Appel back-end : retourne classement recalculé
-    const updatedClassement = await updateMatchScore(matchId, homeGoals, awayGoals);
 
-    // 2️⃣ Mettre à jour le classement instantanément
-    setClassement(updatedClassement);
-
-    // 3️⃣ Mettre à jour le match correspondant dans le state local
-    setMatches((prevMatches) =>
-      prevMatches.map((m) =>
-        m.id === matchId
-          ? { ...m, homeGoals, awayGoals, played: true } // ⚡ match mis à jour
-          : m
-      )
-    );
-  } catch (err) {
-    console.error("Erreur update score :", err);
-  }
-};
-  // 🔑 Grouper les matchs par journée et trier
+  // 🔑 Grouper les matchs par journée
   const matchesByJournee = useMemo(() => {
     const sortedMatches = [...matches].sort(
       (a, b) => a.journee - b.journee || a.id - b.id
@@ -98,26 +98,58 @@ const handleScoreChange = async (matchId, homeGoals, awayGoals) => {
 
   return (
     <div>
-      <h1>Calendrier Premier League</h1>
+      {/* 🔘 Boutons de toggle */}
+      <div style={{ marginBottom: "20px" }}>
+        <button
+          onClick={() => setView("classement")}
+          style={{
+            marginRight: "10px",
+            backgroundColor: view === "classement" ? "#007bff" : "#ccc",
+            color: "white",
+            padding: "5px 10px",
+          }}
+        >
+          Classement
+        </button>
+        <button
+          onClick={() => setView("calendrier")}
+          style={{
+            backgroundColor: view === "calendrier" ? "#007bff" : "#ccc",
+            color: "white",
+            padding: "5px 10px",
+          }}
+        >
+          Calendrier
+        </button>
+      </div>
 
-      <button onClick={handleGenerateCalendar} style={{ marginBottom: "20px" }}>
-        Générer le calendrier
-      </button>
+      {/* 🔄 Affichage conditionnel */}
+      {view === "classement" && <Classement classement={classement} loading={loading} />}
 
-      {Object.keys(matchesByJournee).length === 0 ? (
-        <p>Aucun calendrier disponible pour cette ligue.</p>
-      ) : (
-        Object.entries(matchesByJournee).map(([journee, matchs]) => (
-          <MatchTables
-            key={journee}
-            journee={journee}
-            matches={matchs}
-            onScoreChange={handleScoreChange}
-          />
-        ))
+      {view === "calendrier" && (
+        <div>
+          <h1>Calendrier </h1>
+          <button
+            onClick={handleGenerateCalendar}
+            style={{ marginBottom: "20px" }}
+          >
+            Générer le calendrier
+          </button>
+
+          {Object.keys(matchesByJournee).length === 0 ? (
+            <p>Aucun calendrier disponible pour cette ligue.</p>
+          ) : (
+            Object.entries(matchesByJournee).map(([journee, matchs]) => (
+              <MatchTables
+                key={journee}
+                journee={journee}
+                matches={matchs}
+                onScoreChange={handleScoreChange}
+              />
+            ))
+          )}
+        </div>
       )}
-
-      <Classement classement={classement} loading={loading} />
     </div>
   );
 };

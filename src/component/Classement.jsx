@@ -1,36 +1,43 @@
 import React from "react";
+import "../css/classement.css";
+import { useNavigate } from "react-router-dom";
 
 const Classement = ({ classement, loading }) => {
+    const navigate = useNavigate()
   if (loading) return <p>Chargement classement...</p>;
-  if (!classement || classement.length === 0) return <p>Aucun classement disponible.</p>;
+  if (!classement || classement.length === 0)
+    return <p>Aucun classement disponible.</p>;
 
   return (
-    <div style={{ marginTop: "30px" }}>
-      <h2>Classement</h2>
-      <table border="1" cellPadding="5" style={{ borderCollapse: "collapse", width: "100%" }}>
+    <div className="page">
+      <table className="classement-table">
         <thead>
           <tr>
             <th>Rang</th>
             <th>Club</th>
+            <th>MJ</th>
             <th>Points</th>
-            <th>Diff. Buts</th>
-            <th>Joués</th>
             <th>V</th>
             <th>N</th>
             <th>D</th>
+            <th>GA</th>
+            <th>GC</th>
+            <th>Diff. Buts</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="classement-container">
           {classement.map((c, index) => (
             <tr key={c.clubId}>
               <td>{index + 1}</td>
-              <td>{c.clubName}</td>
-              <td>{c.points}</td>
-              <td>{c.goalDifference}</td>
+              <td onClick={() =>navigate(`/ficheClub/${c.clubId}`)}>{c.clubName}</td>
               <td>{c.played}</td>
+              <td>{c.points}</td>
               <td>{c.wins}</td>
               <td>{c.draws}</td>
               <td>{c.losses}</td>
+              <td>{c.goalsFor}</td>
+              <td>{c.goalsAgainst}</td>
+              <td>{c.goalDifference}</td>
             </tr>
           ))}
         </tbody>
