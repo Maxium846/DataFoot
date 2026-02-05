@@ -1,9 +1,10 @@
 import React from "react";
 import "../css/classement.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Classement = ({ classement, loading }) => {
     const navigate = useNavigate()
+    const {leagueId} = useParams()
   if (loading) return <p>Chargement classement...</p>;
   if (!classement || classement.length === 0)
     return <p>Aucun classement disponible.</p>;
@@ -29,7 +30,7 @@ const Classement = ({ classement, loading }) => {
           {classement.map((c, index) => (
             <tr key={c.clubId}>
               <td>{index + 1}</td>
-              <td onClick={() =>navigate(`/ficheClub/${c.clubId}`)}>{c.clubName}</td>
+              <td onClick={() =>navigate(`/ficheClub/${leagueId}/${c.clubId}`)}>{c.clubName}</td>
               <td>{c.played}</td>
               <td>{c.points}</td>
               <td>{c.wins}</td>

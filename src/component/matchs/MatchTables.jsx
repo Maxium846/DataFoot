@@ -4,50 +4,51 @@ const MatchTables = ({ journee, matches, onScoreChange }) => {
   if (!matches || matches.length === 0) return <p>Aucun match pour cette journée.</p>;
 
   return (
-    <div style={{ marginBottom: "20px" }}>
-      <h2>Journée {journee}</h2>
-      <table
-        border="1"
-        cellPadding="5"
-        style={{ borderCollapse: "collapse", width: "100%" }}
-      >
-        <thead>
-          <tr>
-            <th>Domicile</th>
-            <th>Score</th>
-            <th>Extérieur</th>
-          </tr>
-        </thead>
-        <tbody>
-          {matches.map((m) => (
-            <tr key={m.id}>
-              <td>{m.homeClubName}</td>
-              <td>
-                <input
-                  type="number"
-                  style={{ width: "40px" }}
-                  value={m.homeGoals ?? ""}
-                  onChange={(e) =>
-                    onScoreChange(m.id, parseInt(e.target.value || 0), m.awayGoals)
-                  }
-                />{" "}
-                -{" "}
-                <input
-                  type="number"
-                  style={{ width: "40px" }}
-                  value={m.awayGoals ?? ""}
-                  onChange={(e) =>
-                    onScoreChange(m.id, m.homeGoals, parseInt(e.target.value || 0))
-                  }
-                />
-              </td>
-              <td>{m.awayClubName}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="match-day-card">
+      <div className="match-day-title">Journée {journee}</div>
+
+      {matches.map((m) => (
+        <div key={m.id} className="match-row">
+          
+          <div className="club-home">
+            {m.homeClubName}
+          </div>
+
+          <div className="score-box">
+            <input
+              type="number"
+              value={m.homeGoals ?? ""}
+              onChange={(e) =>
+                onScoreChange(
+                  m.id,
+                  parseInt(e.target.value || 0),
+                  m.awayGoals
+                )
+              }
+            />
+            <span className="score-separator">-</span>
+            <input
+              type="number"
+              value={m.awayGoals ?? ""}
+              onChange={(e) =>
+                onScoreChange(
+                  m.id,
+                  m.homeGoals,
+                  parseInt(e.target.value || 0)
+                )
+              }
+            />
+          </div>
+
+          <div className="club-away">
+            {m.awayClubName}
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
 
 export default MatchTables;
+
+

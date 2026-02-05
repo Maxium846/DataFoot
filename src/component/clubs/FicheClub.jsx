@@ -1,67 +1,79 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useClub from "../../hooks/useClub";
-import useClassement from "../../hooks/useClassement";
 import "../../css/ficheC.css";
+import MatchTables from "../matchs/MatchTables";
+import useMatches from "../../hooks/useMatches";
+
 const FicheClub = () => {
   const navigate = useNavigate();
-  const { clubId } = useParams();
+  const { clubId, leagueId } = useParams();
 
+  const { matchesByJournee } = useMatches(leagueId);
   const { ficheClub, loading, error } = useClub(clubId);
-  const { classement } = useClassement(ficheClub?.leagueId);
 
   if (loading) return <p>Chargement...</p>;
   if (error) return <p>{error}</p>;
   if (!ficheClub) return <p>Aucun club trouvé</p>;
 
-  const clubStats = classement.find(c => c.clubId === Number(clubId));
-  console.log(clubStats);
+  // On filtre uniquement les matchs de ce club
+  const clubMatchesByJournee = Object.fromEntries(
+    Object.entries(matchesByJournee || {}).map(([journee, matchs]) => [
+      journee,
+      matchs.filter(
+        (m) =>
+          m.homeClubId === Number(clubId) ||
+          m.awayClubId === Number(clubId)
+      ),
+    ])
+  );
 
   return (
-    <div className="fiche-club-container">
-      <button className="back-btn" onClick={() => navigate(`/championnat/${ficheClub.leagueId}`)}>
+    <div className="fiche-club-card">
+      <button
+        className="back-btn"
+        onClick={() =>
+          navigate(`/championnat/${ficheClub.leagueId}/classement`)
+        }
+      >
         ← Retour
       </button>
 
-      <h2 className="club-name"> Stats {ficheClub.name}</h2>
-
-      {clubStats ? (
-        <div className="vertical-stats">
-          <div className="stat">
-            <span className="label">Position:</span>
-            <span className="value">{clubStats.position}</span>
-          </div>
-          <div className="stat">
-            <span className="label">Points:</span>
-            <span className="value">{clubStats.points}</span>
-          </div>
-          <div className="stat">
-            <span className="label">Victoires:</span>
-            <span className="value">{clubStats.wins}</span>
-          </div>
-          <div className="stat">
-            <span className="label">Nuls:</span>
-            <span className="value">{clubStats.draws}</span>
-          </div>
-          <div className="stat">
-            <span className="label">Défaites:</span>
-            <span className="value">{clubStats.losses}</span>
-          </div>
-          <div className="stat">
-            <span className="label">Buts pour:</span>
-            <span className="value">{clubStats.goalsFor}</span>
-          </div>
-          <div className="stat">
-            <span className="label">Buts contre:</span>
-            <span className="value">{clubStats.goalsAgainst}</span>
-          </div>
-          <div className="stat">
-            <span className="label">Différence:</span>
-            <span className="value">{clubStats.goalDifference}</span>
-          </div>
+      {/* HEADER */}
+      <div className="club-header">
+        <div className="club-logo">
+          {ficheClub.name.slice(0, 2).toUpperCase()}
         </div>
-      ) : (
-        <p>Stats non disponibles pour ce club.</p>
-      )}
+
+        <div className="club-details">
+          <span className="label">Nom:</span>
+          <span>{ficheClub.name}</span>
+
+          <span className="label">Président:</span>
+          <span>{ficheClub.president}</span>
+
+          <span className="label">Entraîneur:</span>
+          <span>{ficheClub.entraineur}</span>
+
+          <span className="label">Année de création:</span>
+          <span>{ficheClub.dateCreation}</span>
+        </div>
+      </div>
+
+      {/* CALENDRIER */}
+      <div className="club-matches">
+        <h2>Calendrier du club</h2>
+
+        {Object.entries(clubMatchesByJournee).map(([journee, matchs]) =>
+          matchs.length > 0 ? (
+            <MatchTables
+              key={journee}
+              journee={journee}
+              matches={matchs}
+              onScoreChange={() => {}}
+            />
+          ) : null
+        )}
+      </div>
     </div>
   );
 };

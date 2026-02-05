@@ -8,7 +8,6 @@ export default function ClubList() {
 
   // Hook pour gérer les clubs
   const { clubs, addClub, handleDelete,leagueName } = useClubs(leagueId);
-console.log(clubs)
   // Charger le nom de la ligue et ses clubs depuis le backend
   
 

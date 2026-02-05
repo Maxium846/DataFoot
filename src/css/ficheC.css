@@ -1,52 +1,180 @@
-.fiche-club-container {
-  max-width: 400px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 2px solid #37003c;
-  border-radius: 10px;
-  background-color: #f9f9f9;
-  font-family: Arial, sans-serif;
+/* Carte principale */
+.fiche-club-card {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Bouton retour */
 .back-btn {
-  margin-bottom: 15px;
-  padding: 5px 10px;
-  border: none;
-  background-color: #37003c;
+  background: #1e293b;
   color: white;
-  border-radius: 5px;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
   cursor: pointer;
+  margin-bottom: 20px;
+  transition: 0.2s ease;
 }
 
 .back-btn:hover {
-  background-color: #5e1b76;
+  background: #334155;
+  transform: translateY(-1px);
 }
 
-.club-name {
+/* Header club */
+.club-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 20px;
+}
+
+/* Logo rond */
+.club-logo {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Bloc infos */
+.club-details {
+  display: grid;
+  grid-template-columns: 160px auto;
+  row-gap: 8px;
+  column-gap: 10px;
+  font-size: 15px;
+}
+
+/* Labels */
+.label {
+  font-weight: bold;
+  color: #475569;
+}
+
+/* Nom du club titre */
+.fiche-club-card h2 {
+  margin-top: 25px;
+  margin-bottom: 15px;
+  font-size: 22px;
+  color: #1e293b;
+}
+
+/* Espacement des tableaux de matchs */
+.fiche-club-card table {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Style des tableaux MatchTables */
+table {
+  border-collapse: collapse;
+  background: #fafafa;
+}
+
+th {
+  background: #1e293b;
+  color: white;
+  padding: 8px;
+  font-size: 14px;
+}
+
+td {
+  padding: 8px;
   text-align: center;
-  margin-bottom: 20px;
-  color: #37003c;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.vertical-stats {
+/* Inputs score */
+input[type="number"] {
+  width: 45px;
+  padding: 4px;
+  text-align: center;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+}
+
+/* Effet ligne hover */
+tr:hover {
+  background: #f1f5f9;
+}
+.club-matches {
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.stat {
+/* Carte journée plus fine */
+.match-day-card {
+  background: white;
+  border-radius: 10px;
+  padding: 10px 14px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+}
+
+/* Titre journée compact */
+.match-day-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+/* Ligne match compacte */
+.match-row {
+  display: grid;
+  grid-template-columns: 1fr 90px 1fr;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 13px;
+}
+
+/* Clubs */
+.club-home {
+  text-align: right;
+  font-weight: 600;
+}
+
+.club-away {
+  text-align: left;
+  font-weight: 600;
+}
+
+/* Score compact */
+.score-box {
   display: flex;
-  justify-content: space-between;
-  padding: 8px 12px;
-  border-radius: 5px;
-  background-color: #eee;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
 }
 
-.stat .label {
+.score-box input {
+  width: 28px;
+  height: 22px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 0;
+}
+
+.score-separator {
+  font-size: 12px;
   font-weight: bold;
-  color: #37003c;
-}
-
-.stat .value {
-  color: #111;
 }

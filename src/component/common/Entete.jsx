@@ -13,43 +13,55 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import { Box } from "@mui/system";
+
 import { getAllLeague } from "../../api/leaguesApi";
 
 export default function Entete() {
-  const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElChampionnat, setAnchorElChampionnat] = useState(null);
-
-  const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
-  const handleCloseNavMenu = () => setAnchorElNav(null);
-
-  const handleOpenChampionnatMenu = (event) =>
-    setAnchorElChampionnat(event.currentTarget);
-  const handleCloseChampionnatMenu = () => setAnchorElChampionnat(null);
-
   const [leagues, setLeagues] = useState([]);
+
+  // Menu mobile
+  const [anchorElNav, setAnchorElNav] = useState(null);
+
+  // Menu championnat (desktop)
+  const [anchorElLeague, setAnchorElLeague] = useState(null);
+  const [selectedLeague, setSelectedLeague] = useState(null);
+
   useEffect(() => {
     getAllLeague()
       .then((data) => setLeagues(data))
-      .catch((err) => console.error("Erreur chargement ligues :", err));
+      .catch((err) =>
+        console.error("Erreur chargement ligues :", err)
+      );
   }, []);
 
-  // ⚡ Cherche automatiquement la Premier League
+  /* ---------- Handlers ---------- */
 
-  const pages = [
-    { name: "Accueil", path: "/" },
-    { name: "Stats", path: "/stats" },
-    {
-      name: "Calendrier",
-      path: "/calendrier",
-    },
-    { name: "Équipes", path: "/equipe" },
-  ];
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleOpenLeagueMenu = (event, league) => {
+    setAnchorElLeague(event.currentTarget);
+    setSelectedLeague(league);
+  };
+
+  const handleCloseLeagueMenu = () => {
+    setAnchorElLeague(null);
+    setSelectedLeague(null);
+  };
+
+  /* ---------- Render ---------- */
 
   return (
     <AppBar position="sticky" sx={{ backgroundColor: "#37003c" }}>
       <Container maxWidth={false}>
-        <Toolbar disableGutters sx={{ width: "100%" }}>
-          {/* Logo Desktop */}
+        <Toolbar disableGutters>
+
+          {/* Logo desktop */}
           <SportsSoccerIcon sx={{ mr: 1, display: { xs: "none", md: "flex" } }} />
           <Typography
             variant="h6"
@@ -66,13 +78,11 @@ export default function Entete() {
             FootStats
           </Typography>
 
-          {/* Menu Mobile */}
+          {/* -------- MENU MOBILE -------- */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="menu"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
             >
@@ -80,40 +90,55 @@ export default function Entete() {
             </IconButton>
 
             <Menu
-              id="menu-appbar"
               anchorEl={anchorElNav}
-              anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-              keepMounted
-              transformOrigin={{ vertical: "top", horizontal: "left" }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
+              anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+              transformOrigin={{ vertical: "top", horizontal: "left" }}
             >
-              {pages.map((page) => (
+              {leagues.map((league) => [
                 <MenuItem
-                  key={page.name}
-                  component={Link}
-                  to={page.path}
-                  onClick={handleCloseNavMenu}
-                >
-                  {page.name}
-                </MenuItem>
-              ))}
-
-              {/* Menu Championnats mobile */}
-              {leagues.map((league) => (
-                <MenuItem
-                  key={league.id}
-                  component={Link}
-                  to={`/championnat/${league.id}`}
-                  onClick={handleCloseNavMenu}
+                  key={`${league.id}-title`}
+                  disabled
+                  sx={{ fontWeight: "bold" }}
                 >
                   {league.name}
-                </MenuItem>
-              ))}
+                </MenuItem>,
+
+                <MenuItem
+                  key={`${league.id}-classement`}
+                  component={Link}
+                  to={`/championnat/${league.id}/classement`}
+                  onClick={handleCloseNavMenu}
+                  sx={{ pl: 4 }}
+                >
+                  Classement
+                </MenuItem>,
+
+                <MenuItem
+                  key={`${league.id}-stats`}
+                  component={Link}
+                  to={`/championnat/${league.id}/stats`}
+                  onClick={handleCloseNavMenu}
+                  sx={{ pl: 4 }}
+                >
+                  Stats
+                </MenuItem>,
+
+                <MenuItem
+                  key={`${league.id}-clubs`}
+                  component={Link}
+                  to={`/championnat/${league.id}/clubs`}
+                  onClick={handleCloseNavMenu}
+                  sx={{ pl: 4 }}
+                >
+                  Clubs
+                </MenuItem>,
+              ])}
             </Menu>
           </Box>
 
-          {/* Logo Mobile */}
+          {/* Logo mobile */}
           <SportsSoccerIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h6"
@@ -130,58 +155,59 @@ export default function Entete() {
             FootStats
           </Typography>
 
-          {/* Menu Desktop */}
+          {/* -------- MENU DESKTOP -------- */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {leagues.map((league) => (
               <Button
-                key={page.name}
-                component={Link}
-                to={page.path}
+                key={league.id}
+                onClick={(e) => handleOpenLeagueMenu(e, league)}
                 sx={{
                   my: 2,
                   color: "white",
-                  display: "block",
                   fontWeight: "bold",
                   textTransform: "none",
                   "&:hover": { backgroundColor: "#5e1b76" },
                 }}
               >
-                {page.name}
+                {league.name}
               </Button>
             ))}
 
-            {/* Bouton Championnats Desktop */}
-            <Button
-              onClick={handleOpenChampionnatMenu}
-              sx={{
-                my: 2,
-                color: "white",
-                display: "block",
-                fontWeight: "bold",
-                textTransform: "none",
-                "&:hover": { backgroundColor: "#5e1b76" },
-              }}
-            >
-              Championnats
-            </Button>
-
             <Menu
-              anchorEl={anchorElChampionnat}
-              open={Boolean(anchorElChampionnat)}
-              onClose={handleCloseChampionnatMenu}
+              anchorEl={anchorElLeague}
+              open={Boolean(anchorElLeague)}
+              onClose={handleCloseLeagueMenu}
               anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
               transformOrigin={{ vertical: "top", horizontal: "left" }}
             >
-              {leagues.map((league) => (
+              {selectedLeague && [
                 <MenuItem
-                  key={league.id}
+                  key="classement"
                   component={Link}
-                  to={`/championnat/${league.id}`}
-                  onClick={handleCloseChampionnatMenu}
+                  to={`/championnat/${selectedLeague.id}/classement`}
+                  onClick={handleCloseLeagueMenu}
                 >
-                  {league.name}
-                </MenuItem>
-              ))}
+                  Classement
+                </MenuItem>,
+
+                <MenuItem
+                  key="stats"
+                  component={Link}
+                  to={`/championnat/${selectedLeague.id}/stats`}
+                  onClick={handleCloseLeagueMenu}
+                >
+                  Stats
+                </MenuItem>,
+
+                <MenuItem
+                  key="clubs"
+                  component={Link}
+                  to={`/championnat/${selectedLeague.id}/clubs`}
+                  onClick={handleCloseLeagueMenu}
+                >
+                  Clubs
+                </MenuItem>,
+              ]}
             </Menu>
           </Box>
         </Toolbar>

@@ -3,6 +3,7 @@ import ClubList from "./component/clubs/ListClubs";
 import Entete from "./component/common/Entete";
 import FicheClub from "./component/clubs/FicheClub";
 import Calendrier from "./component/Calendrier";
+import Championnats from "./component/Championnats";
 
 function App() {
   return (
@@ -10,15 +11,15 @@ function App() {
       <Entete></Entete>
       <Routes>
         <Route
-          path="/championnat/:leagueId"
-          element={<Calendrier></Calendrier>}
+          path="/championnat/:leagueId/classement"
+          element={<Championnats></Championnats>}
         />
         <Route
           path="/championnat/:leagueId/clubs"
           element={<ClubList></ClubList>}
         />
            <Route
-          path="/ficheClub/:clubId"
+          path="/ficheClub/:leagueId/:clubId"
           element={<FicheClub></FicheClub>}
         />
           <Route
