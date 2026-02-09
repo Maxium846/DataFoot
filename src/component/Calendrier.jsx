@@ -28,7 +28,6 @@ const Calendrier = () => {
         getClassementByLeague(leagueId),
       ]);
       setMatches(Array.isArray(m) ? m : []);
-      console.log(m)
       setClassement(Array.isArray(c) ? c : []);
     } catch (err) {
       console.error("Erreur chargement données :", err);

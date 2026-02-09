@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useClub from "../../hooks/useClub";
 import "../../css/ficheC.css";
-import MatchTables from "../matchs/MatchTables";
 import useMatches from "../../hooks/useMatches";
+import MatchRow from "../matchs/MatchRow";
 
 const FicheClub = () => {
   const navigate = useNavigate();
@@ -28,7 +28,8 @@ const FicheClub = () => {
   );
 
   return (
-    <div className="fiche-club-card">
+<>
+    <div>
       <button
         className="back-btn"
         onClick={() =>
@@ -37,6 +38,9 @@ const FicheClub = () => {
       >
         ← Retour
       </button>
+    </div>
+    <div className="fiche-club-card">
+      
 
       {/* HEADER */}
       <div className="club-header">
@@ -65,16 +69,17 @@ const FicheClub = () => {
 
         {Object.entries(clubMatchesByJournee).map(([journee, matchs]) =>
           matchs.length > 0 ? (
-            <MatchTables
+            <MatchRow
               key={journee}
               journee={journee}
               matches={matchs}
-              onScoreChange={() => {}}
+              clubId={clubId}
             />
           ) : null
         )}
       </div>
     </div>
+    </>
   );
 };
 

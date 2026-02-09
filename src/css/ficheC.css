@@ -178,3 +178,13 @@ tr:hover {
   font-size: 12px;
   font-weight: bold;
 }
+.match-win {
+  color: green;
+  font-weight: bold;
+}
+
+.match-lose {
+  color: red;
+  font-weight: bold;
+}
+
