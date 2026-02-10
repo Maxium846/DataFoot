@@ -26,9 +26,12 @@ const FicheClub = () => {
       ),
     ])
   );
-
   return (
 <>
+
+<div>
+  <button onClick={()=> navigate(`/joueurs/${clubId}`)}>Afficher Joueurs</button>
+</div>
     <div>
       <button
         className="back-btn"

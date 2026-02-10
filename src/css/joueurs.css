@@ -1,0 +1,105 @@
+/* Conteneur global */
+.container-joueurs {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* Header */
+thead {
+  background: linear-gradient(90deg, #1e3c72, #2a5298);
+  color: white;
+}
+
+th {
+  padding: 14px;
+  text-align: left;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+/* Lignes */
+td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+}
+
+/* Effet hover */
+tbody tr:hover {
+  background-color: #f7f9fc;
+  transition: 0.2s;
+}
+
+/* Alternance de lignes */
+tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Bouton supprimer */
+button {
+  background: #e63946;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #c1121f;
+  transform: scale(1.05);
+}
+
+/* Formulaire en bas */
+form {
+  margin-top: 30px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Inputs */
+form input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  flex: 1;
+  min-width: 180px;
+  font-size: 14px;
+}
+
+/* Focus inputs */
+form input:focus {
+  outline: none;
+  border-color: #2a5298;
+  box-shadow: 0 0 0 2px rgba(42,82,152,0.15);
+}
+
+/* Bouton valider */
+form button {
+  background: #2a5298;
+  padding: 10px 18px;
+  font-weight: bold;
+}
+
+form button:hover {
+  background: #1e3c72;
+}

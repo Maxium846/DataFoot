@@ -4,6 +4,7 @@ import Entete from "./component/common/Entete";
 import FicheClub from "./component/clubs/FicheClub";
 import Calendrier from "./component/Calendrier";
 import Championnats from "./component/Championnats";
+import Joueurs from "./component/joueurs/Joueurs";
 
 function App() {
   return (
@@ -25,6 +26,10 @@ function App() {
           <Route
           path="/calendrier/:leagueId"
           element={<Calendrier></Calendrier>}
+        />
+        <Route
+          path="/joueurs/:clubId"
+          element={<Joueurs></Joueurs>}
         />
           
       </Routes>
