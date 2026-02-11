@@ -34,7 +34,7 @@ padding: "5px 10px",
 >
 Classement </button>
 
-```
+
     <button
       onClick={() => setView("calendrier")}
       style={{

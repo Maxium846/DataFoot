@@ -21,67 +21,68 @@ const FicheClub = () => {
       journee,
       matchs.filter(
         (m) =>
-          m.homeClubId === Number(clubId) ||
-          m.awayClubId === Number(clubId)
+          m.homeClubId === Number(clubId) || m.awayClubId === Number(clubId),
       ),
-    ])
+    ]),
   );
   return (
-<>
-
-<div>
-  <button onClick={()=> navigate(`/joueurs/${clubId}`)}>Afficher Joueurs</button>
-</div>
-    <div>
-      <button
-        className="back-btn"
-        onClick={() =>
-          navigate(`/championnat/${ficheClub.leagueId}/classement`)
-        }
+    <>
+      <div
+        style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}
       >
-        ← Retour
-      </button>
-    </div>
-    <div className="fiche-club-card">
-      
+        {" "}
+        <button onClick={() => navigate(`/joueurs/${clubId}`)}>
+          Afficher Joueurs
+        </button>
+      </div>
+      <div>
+        <button
+          className="back-btn"
+          onClick={() =>
+            navigate(`/championnat/${ficheClub.leagueId}/classement`)
+          }
+        >
+          ← Retour
+        </button>
+      </div>
+      <div className="fiche-club-card">
+        {/* HEADER */}
+        <div className="club-header">
+          <div className="club-logo">
+            {ficheClub.name.slice(0, 2).toUpperCase()}
+          </div>
 
-      {/* HEADER */}
-      <div className="club-header">
-        <div className="club-logo">
-          {ficheClub.name.slice(0, 2).toUpperCase()}
+          <div className="club-details">
+            <span className="label">Nom:</span>
+            <span>{ficheClub.name}</span>
+
+            <span className="label">Président:</span>
+            <span>{ficheClub.president}</span>
+
+            <span className="label">Entraîneur:</span>
+            <span>{ficheClub.entraineur}</span>
+
+            <span className="label">Année de création:</span>
+            <span>{ficheClub.dateCreation}</span>
+          </div>
         </div>
 
-        <div className="club-details">
-          <span className="label">Nom:</span>
-          <span>{ficheClub.name}</span>
+        {/* CALENDRIER */}
+        <div className="club-matches">
+          <h2>Calendrier du club</h2>
 
-          <span className="label">Président:</span>
-          <span>{ficheClub.president}</span>
-
-          <span className="label">Entraîneur:</span>
-          <span>{ficheClub.entraineur}</span>
-
-          <span className="label">Année de création:</span>
-          <span>{ficheClub.dateCreation}</span>
+          {Object.entries(clubMatchesByJournee).map(([journee, matchs]) =>
+            matchs.length > 0 ? (
+              <MatchRow
+                key={journee}
+                journee={journee}
+                matches={matchs}
+                clubId={clubId}
+              />
+            ) : null,
+          )}
         </div>
       </div>
-
-      {/* CALENDRIER */}
-      <div className="club-matches">
-        <h2>Calendrier du club</h2>
-
-        {Object.entries(clubMatchesByJournee).map(([journee, matchs]) =>
-          matchs.length > 0 ? (
-            <MatchRow
-              key={journee}
-              journee={journee}
-              matches={matchs}
-              clubId={clubId}
-            />
-          ) : null
-        )}
-      </div>
-    </div>
     </>
   );
 };

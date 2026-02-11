@@ -15,7 +15,7 @@ const MatchTables = ({ journee, matches, onScoreChange }) => {
         <div
           key={m.id}
           className="match-row"
-          onClick={() => navigate(`/match/${m.id}`)}   // 👈 ICI
+          onClick={() => navigate(`/match/${m.id}`)} // 👈 ICI
           style={{
             cursor: "pointer",
             display: "flex",
@@ -32,11 +32,7 @@ const MatchTables = ({ journee, matches, onScoreChange }) => {
               value={m.homeGoals ?? ""}
               onClick={(e) => e.stopPropagation()} // empêche la navigation
               onChange={(e) =>
-                onScoreChange(
-                  m.id,
-                  parseInt(e.target.value || 0),
-                  m.awayGoals
-                )
+                onScoreChange(m.id, parseInt(e.target.value || 0), m.awayGoals)
               }
             />
             <span>-</span>
@@ -45,24 +41,20 @@ const MatchTables = ({ journee, matches, onScoreChange }) => {
               value={m.awayGoals ?? ""}
               onClick={(e) => e.stopPropagation()} // empêche la navigation
               onChange={(e) =>
-                onScoreChange(
-                  m.id,
-                  m.homeGoals,
-                  parseInt(e.target.value || 0)
-                )
+                onScoreChange(m.id, m.homeGoals, parseInt(e.target.value || 0))
               }
             />
           </div>
 
           <div className="club-away">{m.awayClubName}</div>
-
           <button
             onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/matches/${m.id}/composition`);
+              e.stopPropagation(); // pour ne pas déclencher la sélection du match
+              navigate(`/match/${m.id}/composition`, {
+              });
             }}
           >
-            Composition
+            Compos
           </button>
         </div>
       ))}

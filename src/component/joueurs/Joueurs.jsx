@@ -1,10 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useJoueurs from "../../hooks/useJoueurs";
 import JoueursForm from "./JoueursForm";
 import "../../css/joueurs.css";
 
 const Joueurs = () => {
   const { clubId } = useParams();
+  const navigate = useNavigate();
   const { joueurs, addJoueur, handleDelete, sortByPosition } =
     useJoueurs(clubId);
 
@@ -27,7 +28,7 @@ const Joueurs = () => {
           <tbody>
             {joueurs.map((j) => (
               <tr key={j.id}>
-                <td>{j.firstName}</td>
+                <td onClick={()=> navigate(`/joueurs/${clubId}/${j.id}`)}>{j.firstName}</td>
                 <td>{j.lastName}</td>
                 <td>{j.position}</td>
                 <td>{j.dateDeNaissance}</td>

@@ -2,11 +2,11 @@ import { Route, Routes } from "react-router-dom";
 import ClubList from "./component/clubs/ListClubs";
 import Entete from "./component/common/Entete";
 import FicheClub from "./component/clubs/FicheClub";
-import Calendrier from "./component/Calendrier";
 import Championnats from "./component/Championnats";
 import Joueurs from "./component/joueurs/Joueurs";
 import MatchLineupForm from "./component/matchs/MatchLineUpForm";
 import DetailsMatch from "./component/matchs/DetailsMatch";
+import StatJoueurs from "./component/joueurs/StatsJoueur";
 
 
 function App() {
@@ -26,21 +26,22 @@ function App() {
           path="/ficheClub/:leagueId/:clubId"
           element={<FicheClub></FicheClub>}
         />
-          <Route
-          path="/calendrier/:leagueId"
-          element={<Calendrier></Calendrier>}
-        />
+       
         <Route
           path="/joueurs/:clubId"
           element={<Joueurs></Joueurs>}
         />
          <Route
-          path="/matches/:matchId/composition"
+          path="/match/:matchId/composition"
           element={<MatchLineupForm></MatchLineupForm>}
         />
          <Route
           path="/match/:matchId"
           element={<DetailsMatch></DetailsMatch>}
+        />
+         <Route
+          path="/joueurs/:clubId/:joueurId"
+          element={<StatJoueurs></StatJoueurs>}
         />
       </Routes>
     </div>
