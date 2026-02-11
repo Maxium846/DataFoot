@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Génère les positions x pour N joueurs alignés horizontalement
@@ -15,6 +16,8 @@ const getLinePositions = (numPlayers, y) => {
  * Terrain de foot compact style FlashScore avec nom complet
  */
 const FootballPitch = ({ players = [], teamColor = "#1E90FF" }) => {
+  const navigate = useNavigate(); // 🔑 hook pour la navigation
+
   // positions Y pour chaque poste
   const positionsY = {
     Goalkeeper: 90,
@@ -45,7 +48,7 @@ const FootballPitch = ({ players = [], teamColor = "#1E90FF" }) => {
     <div
       style={{
         width: "100%",
-        maxWidth: "400px", // réduit le terrain
+        maxWidth: "400px",
         aspectRatio: "5/7",
         backgroundColor: "#3CB371",
         position: "relative",
@@ -68,7 +71,7 @@ const FootballPitch = ({ players = [], teamColor = "#1E90FF" }) => {
           borderRadius: "50%",
         }}
       />
-      {/* Surface de réparation domicile */}
+      {/* Surfaces de reparation */}
       <div
         style={{
           position: "absolute",
@@ -78,9 +81,9 @@ const FootballPitch = ({ players = [], teamColor = "#1E90FF" }) => {
           height: "15%",
           border: "2px solid white",
           borderBottom: "none",
+          borderTop: "2px solid white",
         }}
       />
-      {/* Surface de réparation extérieur */}
       <div
         style={{
           position: "absolute",
@@ -89,9 +92,34 @@ const FootballPitch = ({ players = [], teamColor = "#1E90FF" }) => {
           width: "50%",
           height: "15%",
           border: "2px solid white",
-          borderTop: "none",
+          borderTop: "2px solid white",
         }}
       />
+      {/* Ligne Réparation gardien */}
+
+
+      <div
+       style={{
+          position: "absolute",
+          top: 0,
+          left: "33%",
+          width: "35%",
+          height: "5%",
+          border: "2px solid white",
+          borderBottom: "2px solid white",
+          borderTop: "2px solid white",
+        }}></div>
+          <div
+       style={{
+          position: "absolute",
+          bottom: 0,
+          left: "33%",
+          width: "35%",
+          height: "5%",
+          border: "2px solid white",
+          borderBottom: "2px solid white",
+          borderTop: "2px solid white",
+        }}></div>
       {/* Ligne médiane */}
       <div
         style={{
@@ -113,8 +141,7 @@ const FootballPitch = ({ players = [], teamColor = "#1E90FF" }) => {
             top: `${p.coord.y}%`,
             left: `${p.coord.x}%`,
             transform: "translate(-50%, -50%)",
-            width: "40px",      // réduit la taille des joueurs
-            minWidth: "40px",
+            width: "40px",
             height: "40px",
             borderRadius: "50%",
             backgroundColor: teamColor,
@@ -122,7 +149,7 @@ const FootballPitch = ({ players = [], teamColor = "#1E90FF" }) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            fontSize: "9px",    // plus petit texte
+            fontSize: "9px",
             fontWeight: "bold",
             textAlign: "center",
             padding: "2px",
@@ -131,8 +158,9 @@ const FootballPitch = ({ players = [], teamColor = "#1E90FF" }) => {
             overflow: "hidden",
           }}
           title={`${p.playerName} (${p.position})`}
+          onClick={() => navigate(`/joueurs/${p.clubId}/${p.playerId}`)} // 🔑 navigation
         >
-          {p.playerName}
+          {p.playerName} {/* nom complet */}
         </div>
       ))}
     </div>

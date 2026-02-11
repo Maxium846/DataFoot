@@ -76,12 +76,12 @@ const StatJoueurs = () => {
 
           <tbody>
             <tr>
-              <td>{stat.matchesPlayed}</td>
-              <td>{stat.goals}</td>
-              <td>{stat.assists}</td>
-              <td>{stat.redCards}</td>
-              <td>{stat.yellowCards}</td>
-              <td>{stat.minutesPlayed}</td>
+              <td>{stat?.matchesPlayed}</td>
+              <td>{stat?.goals}</td>
+              <td>{stat?.assists}</td>
+              <td>{stat?.redCards}</td>
+              <td>{stat?.yellowCards}</td>
+              <td>{stat?.minutesPlayed}</td>
             </tr>
           </tbody>
         </table>
