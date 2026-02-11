@@ -1,6 +1,6 @@
 export async function getJoueurs(id){
 
-    const res = await fetch ("http://localhost:8081/api/players/" + id)
+    const res = await fetch ("http://localhost:8081/api/players/clubs/" + id)
     try{
         if(!res.ok){
             throw new Error("Erreur lors du chargement des joueurs")

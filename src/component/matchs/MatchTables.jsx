@@ -1,23 +1,36 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const MatchTables = ({ journee, matches, onScoreChange }) => {
-  if (!matches || matches.length === 0) return <p>Aucun match pour cette journée.</p>;
+  const navigate = useNavigate();
+
+  if (!matches || matches.length === 0)
+    return <p>Aucun match pour cette journée.</p>;
 
   return (
     <div className="match-day-card">
       <div className="match-day-title">Journée {journee}</div>
 
       {matches.map((m) => (
-        <div key={m.id} className="match-row">
-          
-          <div className="club-home">
-            {m.homeClubName}
-          </div>
+        <div
+          key={m.id}
+          className="match-row"
+          onClick={() => navigate(`/match/${m.id}`)}   // 👈 ICI
+          style={{
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            marginBottom: "10px",
+          }}
+        >
+          <div className="club-home">{m.homeClubName}</div>
 
           <div className="score-box">
             <input
               type="number"
               value={m.homeGoals ?? ""}
+              onClick={(e) => e.stopPropagation()} // empêche la navigation
               onChange={(e) =>
                 onScoreChange(
                   m.id,
@@ -26,10 +39,11 @@ const MatchTables = ({ journee, matches, onScoreChange }) => {
                 )
               }
             />
-            <span className="score-separator">-</span>
+            <span>-</span>
             <input
               type="number"
               value={m.awayGoals ?? ""}
+              onClick={(e) => e.stopPropagation()} // empêche la navigation
               onChange={(e) =>
                 onScoreChange(
                   m.id,
@@ -40,9 +54,16 @@ const MatchTables = ({ journee, matches, onScoreChange }) => {
             />
           </div>
 
-          <div className="club-away">
-            {m.awayClubName}
-          </div>
+          <div className="club-away">{m.awayClubName}</div>
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/matches/${m.id}/composition`);
+            }}
+          >
+            Composition
+          </button>
         </div>
       ))}
     </div>
@@ -50,5 +71,3 @@ const MatchTables = ({ journee, matches, onScoreChange }) => {
 };
 
 export default MatchTables;
-
-

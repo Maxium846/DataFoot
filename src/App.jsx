@@ -5,6 +5,9 @@ import FicheClub from "./component/clubs/FicheClub";
 import Calendrier from "./component/Calendrier";
 import Championnats from "./component/Championnats";
 import Joueurs from "./component/joueurs/Joueurs";
+import MatchLineupForm from "./component/matchs/MatchLineUpForm";
+import DetailsMatch from "./component/matchs/DetailsMatch";
+
 
 function App() {
   return (
@@ -31,7 +34,14 @@ function App() {
           path="/joueurs/:clubId"
           element={<Joueurs></Joueurs>}
         />
-          
+         <Route
+          path="/matches/:matchId/composition"
+          element={<MatchLineupForm></MatchLineupForm>}
+        />
+         <Route
+          path="/match/:matchId"
+          element={<DetailsMatch></DetailsMatch>}
+        />
       </Routes>
     </div>
   );
