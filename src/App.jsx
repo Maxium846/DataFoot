@@ -7,7 +7,6 @@ import Joueurs from "./component/joueurs/Joueurs";
 import MatchLineupForm from "./component/matchs/MatchLineUpForm";
 import DetailsMatch from "./component/matchs/DetailsMatch";
 import StatJoueurs from "./component/joueurs/StatsJoueur";
-import CalendarPL from "./component/CalendrierPl";
 
 
 function App() {
