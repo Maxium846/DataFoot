@@ -29,6 +29,8 @@ const MatchRow = ({ journee, matches, clubId }) => {
             </div>
 
             <div className="club-away">{m.awayClubName}</div>
+            <div>{m.matchDate}</div>
+
           </div>
         );
       })}

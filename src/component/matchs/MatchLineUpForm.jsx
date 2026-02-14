@@ -4,12 +4,13 @@ import { getMatchById, saveMatchLineup } from "../../api/matchApi";
 import { getJoueurs } from "../../api/joueurs";
 
 const MatchLineUpForm = () => {
-  const { matchId } = useParams();
+  const { matchId , leagueId} = useParams();
   const [match, setMatch] = useState(null);
   const [homePlayers, setHomePlayers] = useState([]);
   const [awayPlayers, setAwayPlayers] = useState([]);
   const [lineups, setLineups] = useState({}); // { playerId: { clubId, position, starter } }
 
+  
   // 🔹 Récupérer le match
   useEffect(() => {
     const fetchMatch = async () => {
@@ -84,7 +85,7 @@ const MatchLineUpForm = () => {
 
     try {
       console.log("Envoi au back :", lineupArray);
-      await saveMatchLineup({ matchId: match.id, lineups: lineupArray });
+      await saveMatchLineup({ matchId: match.id, lineups: lineupArray, leagueId});
       alert("Composition enregistrée !");
     } catch (err) {
       console.error("Erreur sauvegarde lineup :", err);

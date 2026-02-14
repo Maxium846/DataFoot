@@ -78,6 +78,7 @@ Classement </button>
               journee={journee}
               matches={matchs}
               onScoreChange={handleScoreChange}
+              league = {leagueId}
             />
           ))
         )}

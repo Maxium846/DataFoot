@@ -21,6 +21,10 @@ export const getMatchById = async (matchId) => {
 };
 
 export const updateMatchScore = async (matchId, homeGoals, awayGoals) => {
+  if (homeGoals == null || awayGoals == null) {
+    throw new Error("homeGoals et awayGoals doivent être définis !");
+  }
+
   const res = await fetch(
     `http://localhost:8081/api/matches/${matchId}/score?homeGoals=${homeGoals}&awayGoals=${awayGoals}`,
     { method: "POST" }
@@ -31,9 +35,11 @@ export const updateMatchScore = async (matchId, homeGoals, awayGoals) => {
     throw new Error(`Erreur update score: ${text}`);
   }
 
-  // ⚡ Retourner le JSON du classement recalculé
   return res.json();
 };
+
+
+
 
 
 
@@ -46,7 +52,7 @@ return res.json()};
 
 export const generateCalendar = async (leagueId) => {
   const res = await fetch(
-    `http://localhost:8081/api/calendar/generate/${leagueId}`,
+    `http://localhost:8081/api/calendar/generate-from-pl/${leagueId}`,
     { method: "POST" }
   );
 
@@ -55,6 +61,7 @@ export const generateCalendar = async (leagueId) => {
     throw new Error(text);
   }
 };
+
 // src/api/matchApi.js
 
 export const getMatchLineup = async (matchId) => {
@@ -71,8 +78,8 @@ export const getMatchEvents = async (matchId) => {
 
 
 // src/api/matchApi.js
-export const saveMatchLineup = async ({ matchId, lineups }) => { // "lineups" au pluriel
-  const res = await fetch(`http://localhost:8081/api/matches/${matchId}/lineup`, {
+export const saveMatchLineup = async ({ matchId, lineups,leagueId }) => {
+  const res = await fetch(`http://localhost:8081/api/matches/${matchId}/lineup/${leagueId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

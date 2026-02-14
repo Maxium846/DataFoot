@@ -17,7 +17,6 @@ const getLinePositions = (numPlayers, y) => {
  */
 const FootballPitch = ({ players = [], teamColor = "#1E90FF" }) => {
   const navigate = useNavigate(); // 🔑 hook pour la navigation
-
   // positions Y pour chaque poste
   const positionsY = {
     Goalkeeper: 90,
@@ -33,6 +32,7 @@ const FootballPitch = ({ players = [], teamColor = "#1E90FF" }) => {
     if (!playersByPosition[pos]) playersByPosition[pos] = [];
     playersByPosition[pos].push(p);
   });
+  console.log(playersByPosition)
 
   // assigner coordonnées à chaque joueur
   const placedPlayers = [];
@@ -80,7 +80,7 @@ const FootballPitch = ({ players = [], teamColor = "#1E90FF" }) => {
           width: "50%",
           height: "15%",
           border: "2px solid white",
-          borderBottom: "none",
+          borderBottom: "2px solid white",
           borderTop: "2px solid white",
         }}
       />
@@ -92,14 +92,14 @@ const FootballPitch = ({ players = [], teamColor = "#1E90FF" }) => {
           width: "50%",
           height: "15%",
           border: "2px solid white",
+          borderBottom: "2px solid white",
           borderTop: "2px solid white",
         }}
       />
       {/* Ligne Réparation gardien */}
 
-
       <div
-       style={{
+        style={{
           position: "absolute",
           top: 0,
           left: "33%",
@@ -108,9 +108,10 @@ const FootballPitch = ({ players = [], teamColor = "#1E90FF" }) => {
           border: "2px solid white",
           borderBottom: "2px solid white",
           borderTop: "2px solid white",
-        }}></div>
-          <div
-       style={{
+        }}
+      ></div>
+      <div
+        style={{
           position: "absolute",
           bottom: 0,
           left: "33%",
@@ -119,7 +120,8 @@ const FootballPitch = ({ players = [], teamColor = "#1E90FF" }) => {
           border: "2px solid white",
           borderBottom: "2px solid white",
           borderTop: "2px solid white",
-        }}></div>
+        }}
+      ></div>
       {/* Ligne médiane */}
       <div
         style={{

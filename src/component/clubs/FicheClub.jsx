@@ -10,6 +10,7 @@ const FicheClub = () => {
 
   const { matchesByJournee } = useMatches(leagueId);
   const { ficheClub, loading, error } = useClub(clubId);
+      console.log(matchesByJournee)
 
   if (loading) return <p>Chargement...</p>;
   if (error) return <p>{error}</p>;
@@ -71,13 +72,14 @@ const FicheClub = () => {
         <div className="club-matches">
           <h2>Calendrier du club</h2>
 
-          {Object.entries(clubMatchesByJournee).map(([journee, matchs]) =>
+          {Object.entries(clubMatchesByJournee).map(([journee, matchs,date]) =>
             matchs.length > 0 ? (
               <MatchRow
                 key={journee}
                 journee={journee}
                 matches={matchs}
                 clubId={clubId}
+                date = {date}
               />
             ) : null,
           )}
