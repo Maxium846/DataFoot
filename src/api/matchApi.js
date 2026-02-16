@@ -71,7 +71,7 @@ export const getMatchLineup = async (matchId) => {
 };
 
 export const getMatchEvents = async (matchId) => {
-  const res = await fetch(`/api/matches/${matchId}/events`);
+  const res = await fetch(`/api/matches/${matchId}/`);
   if (!res.ok) throw new Error("Impossible de récupérer les événements");
   return res.json();
 };
@@ -93,6 +93,25 @@ export const saveMatchLineup = async ({ matchId, lineups,leagueId }) => {
     throw new Error("Impossible d'enregistrer la composition");
   }
 
+  return res.json();
+};
+export async function createEvent(event){
+
+const res = await fetch ("http://localhost:8081/api/match-events" , {
+
+    method: "POST",
+    headers: { "Content-Type" : "application/json"},
+    body : JSON.stringify(event)
+});
+return res.json();
+}
+export const getMatchStatByMatchId = async (matchId) => {
+  const res = await fetch("http://localhost:8081/api/match-events/match/" + matchId);
+  if (!res.ok) {
+    const text = await res.text();
+    console.error("Erreur fetch matches:", text);
+    throw new Error("Erreur chargement matchs");
+  }
   return res.json();
 };
 

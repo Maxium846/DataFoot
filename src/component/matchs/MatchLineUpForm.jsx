@@ -23,7 +23,6 @@ const MatchLineUpForm = () => {
     };
     fetchMatch();
   }, [matchId]);
-
   // 🔹 Récupérer les joueurs et initialiser lineups
   useEffect(() => {
     if (!match) return;
@@ -36,8 +35,11 @@ const MatchLineUpForm = () => {
         setAwayPlayers(away);
 
         // 🔹 Initialisation lineups avec clubId
+
         const initialLineups = {};
+        // pour chaque joueur p de l'équipe a domicile , on crée une entrée dans initialLineupsdont la clé est l'id du joueur
         home.forEach((p) => {
+          //Dans l’objet initialLineups, crée une propriété dont le nom est l’identifiant du joueur p.id, et assigne-lui cet objet contenant clubId, position et starter.
           initialLineups[p.id] = {
             clubId: match.homeClubId,
             position: p.position,
@@ -52,6 +54,8 @@ const MatchLineUpForm = () => {
           };
         });
         setLineups(initialLineups);
+       
+
       } catch (err) {
         console.error("Erreur récupération joueurs :", err);
       }
@@ -59,17 +63,21 @@ const MatchLineUpForm = () => {
 
     fetchPlayers();
   }, [match]);
-
   // 🔹 Mettre à jour starter ou position
-  const handleChange = (playerId, field, value) => {
-    setLineups((prev) => ({
+  // prop est générique est représente le nom de la prop qe je veux changer dans l'objet d'un joueur
+  const handleChange = (playerId, propJoueur, value) => {
+  setLineups((prev) => {
+    const updated = {
       ...prev,
       [playerId]: {
         ...prev[playerId],
-        [field]: value,
+        [propJoueur]: value,
       },
-    }));
-  };
+    };
+    console.log("Lineups mises à jour :", updated);
+    return updated;
+  });
+};
 
   // 🔹 Envoi au back
   const handleSubmit = async (e) => {

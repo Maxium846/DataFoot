@@ -32,7 +32,6 @@ const FootballPitch = ({ players = [], teamColor = "#1E90FF" }) => {
     if (!playersByPosition[pos]) playersByPosition[pos] = [];
     playersByPosition[pos].push(p);
   });
-  console.log(playersByPosition)
 
   // assigner coordonnées à chaque joueur
   const placedPlayers = [];
@@ -165,6 +164,8 @@ const FootballPitch = ({ players = [], teamColor = "#1E90FF" }) => {
           {p.playerName} {/* nom complet */}
         </div>
       ))}
+
+      
     </div>
   );
 };

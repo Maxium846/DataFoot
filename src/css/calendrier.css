@@ -1,0 +1,85 @@
+.calendar-card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  margin-bottom: 25px;
+}
+
+.calendar-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.matches-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.match-card {
+  display: grid;
+  grid-template-columns: 1fr 140px 1fr 90px;
+  align-items: center;
+  padding: 12px 15px;
+  border-radius: 10px;
+  background: #f8f9fb;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.match-card:hover {
+  background: #eef2f7;
+  transform: translateY(-1px);
+}
+
+.team {
+  font-weight: 600;
+}
+
+.team-home {
+  text-align: right;
+  padding-right: 10px;
+}
+
+.team-away {
+  text-align: left;
+  padding-left: 10px;
+}
+
+.score-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.score-section input {
+  width: 45px;
+  height: 32px;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.dash {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.compo-btn {
+  border: none;
+  background: #1f7aec;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.compo-btn:hover {
+  background: #0f5fd1;
+}

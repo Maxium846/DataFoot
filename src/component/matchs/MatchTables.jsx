@@ -1,20 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../../css/calendrier.css";
 
-const MatchTables = ({ journee, matches, onScoreChange,league }) => {
+const MatchTables = ({ journee, matches, onScoreChange, league }) => {
   const navigate = useNavigate();
-
-  // 🔹 Stocker temporairement les scores des matchs
-  const [localScores, setLocalScores] = useState({}); // { matchId: { homeGoals, awayGoals } }
+  const [localScores, setLocalScores] = useState({});
 
   const handleChange = (matchId, side, value) => {
     setLocalScores(prev => {
       const current = prev[matchId] || {};
       const updated = { ...current, [side]: parseInt(value || 0) };
-      // Envoie au backend seulement si les deux valeurs sont définies
+
       if (updated.homeGoals != null && updated.awayGoals != null) {
         onScoreChange(matchId, updated.homeGoals, updated.awayGoals);
       }
+
       return { ...prev, [matchId]: updated };
     });
   };
@@ -23,62 +23,59 @@ const MatchTables = ({ journee, matches, onScoreChange,league }) => {
     return <p>Aucun match pour cette journée.</p>;
 
   return (
-    <div className="match-day-card">
-      <div className="match-day-title">Journée {journee}</div>
+    <div className="calendar-card">
+      <h2 className="calendar-title">Journée {journee}</h2>
 
-      {matches.map((m) => {
-        const score = localScores[m.id] || {
-          homeGoals: m.homeGoals, 
-          awayGoals: m.awayGoals
-        };
+      <div className="matches-container">
+        {matches.map((m) => {
+          const score = localScores[m.id] || {
+            homeGoals: m.homeGoals,
+            awayGoals: m.awayGoals
+          };
 
-        return (
-          <div
-            key={m.id}
-            className="match-row"
-            onClick={() => navigate(`/match/${m.id}`)}
-            style={{
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              marginBottom: "10px",
-            }}
-          >
-            <div className="club-home">{m.homeClubName}</div>
-
-            <div className="score-box">
-              <input
-                type="number"
-                value={score.homeGoals}
-                onClick={(e) => e.stopPropagation()}
-                onChange={(e) =>
-                  handleChange(m.id, "homeGoals", e.target.value)
-                }
-              />
-              <span>-</span>
-              <input
-                type="number"
-                value={score.awayGoals}
-                onClick={(e) => e.stopPropagation()}
-                onChange={(e) =>
-                  handleChange(m.id, "awayGoals", e.target.value)
-                }
-              />
-            </div>
-
-            <div className="club-away">{m.awayClubName}</div>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate(`/match/${m.id}/composition/${league}`);
-              }}
+          return (
+            <div
+              key={m.id}
+              className="match-card"
+              onClick={() => navigate(`/match/${m.id}`)}
             >
-              Compos
-            </button>
-          </div>
-        );
-      })}
+              <div className="team team-home">{m.homeClubName}</div>
+
+              <div className="score-section">
+                <input
+                  type="number"
+                  value={score.homeGoals}
+                  onClick={(e) => e.stopPropagation()}
+                  onChange={(e) =>
+                    handleChange(m.id, "homeGoals", e.target.value)
+                  }
+                />
+                <span className="dash">-</span>
+                <input
+                  type="number"
+                  value={score.awayGoals}
+                  onClick={(e) => e.stopPropagation()}
+                  onChange={(e) =>
+                    handleChange(m.id, "awayGoals", e.target.value)
+                  }
+                />
+              </div>
+
+              <div className="team team-away">{m.awayClubName}</div>
+
+              <button
+                className="compo-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/match/${m.id}/composition/${league}`);
+                }}
+              >
+                Compos
+              </button>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

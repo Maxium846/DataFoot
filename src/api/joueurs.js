@@ -46,7 +46,7 @@ export async function getJoueurById (id){
 }
 export async function getStatByJoueur (id){
 
-    const res = await fetch("http://localhost:8081/api/playersStat/" + id)
+    const res = await fetch(`http://localhost:8081/api/match-events/player/${id}/stat`)
     try{
         if(!res.ok){
             throw new Error("Erreur lors du chargement des joueurs")

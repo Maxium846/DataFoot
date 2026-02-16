@@ -9,11 +9,16 @@ const StatJoueurs = () => {
   const [joueur, setJoueur] = useState(null);
   const [stat, setStat] = useState(null);
 
+        console.log(joueurId)
+
   useEffect(() => {
     const fetchJoueur = async () => {
+
       const data = await getJoueurById(joueurId);
+      console.log(data)
 
       const datastat = await getStatByJoueur(joueurId);
+      console.log(datastat)
       setJoueur(data);
       setStat(datastat);
     };
@@ -79,8 +84,8 @@ const StatJoueurs = () => {
               <td>{stat?.matchesPlayed}</td>
               <td>{stat?.goals}</td>
               <td>{stat?.assists}</td>
-              <td>{stat?.redCards}</td>
-              <td>{stat?.yellowCards}</td>
+              <td>{stat?.redCard}</td>
+              <td>{stat?.yellowCard}</td>
               <td>{stat?.minutesPlayed}</td>
             </tr>
           </tbody>
