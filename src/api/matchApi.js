@@ -65,7 +65,7 @@ export const generateCalendar = async (leagueId) => {
 // src/api/matchApi.js
 
 export const getMatchLineup = async (matchId) => {
-  const res = await fetch("http://localhost:8081/api/matches/match/" +matchId);
+  const res = await fetch("http://localhost:8081/api/matches/match/" + matchId);
   if (!res.ok) throw new Error("Impossible de récupérer la composition");
   return res.json();
 };

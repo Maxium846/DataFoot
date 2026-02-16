@@ -18,7 +18,6 @@ const MatchTables = ({ journee, matches, onScoreChange, league }) => {
       return { ...prev, [matchId]: updated };
     });
   };
-
   if (!matches || matches.length === 0)
     return <p>Aucun match pour cette journée.</p>;
 
