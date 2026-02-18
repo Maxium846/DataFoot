@@ -12,7 +12,6 @@ const [error, setError] = useState(null);
 
 
 
-
   // 🔹 Récupération des données depuis la BDDs
   const fetchData = useCallback(async () => {
     setLoading(true);

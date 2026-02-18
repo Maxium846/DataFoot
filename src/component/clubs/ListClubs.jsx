@@ -7,14 +7,25 @@ export default function ClubList() {
   // State pour le nom de la ligue
 
   // Hook pour gérer les clubs
-  const { clubs, addClub, handleDelete,leagueName } = useClubs(leagueId);
+  const { clubs, addClub, handleDelete, leagueName, generateClub } =
+    useClubs(leagueId);
   // Charger le nom de la ligue et ses clubs depuis le backend
-  
 
   return (
     <div>
       <h2>Clubs du championnat de {leagueName || "..."}</h2>
-
+      <div>
+        <button
+          onClick={() => generateClub(leagueId)}
+          style={{
+            padding: "8px 16px",
+            backgroundColor: "#007bff",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+          }}
+        >Generer club</button>
+      </div>
       <table border="1" cellPadding="8">
         <thead>
           <tr>

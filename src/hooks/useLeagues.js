@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { geClubByLeagueById } from "../api/leaguesApi";
 import { createClub, deleteClub } from "../api/api";
+import { generateClubs } from "../api/club";
 
 export default function useLeagues(leagueId) {
   const [clubs, setClubs] = useState([]);
@@ -48,5 +49,24 @@ export default function useLeagues(leagueId) {
       .catch((err) => console.error("Erreur lors de la suppression :", err));
   };
 
-  return { clubs, addClub, handleDelete, setClubs, leagueName };
+const generateClub = async (leagueId) => {
+  try {
+    const data = await generateClubs(leagueId);
+    console.log(data)
+
+    if (!Array.isArray(data)) {
+      throw new Error("Format de données invalide");
+    }
+
+    setClubs(data);
+
+  } catch (err) {
+    console.error("Erreur génération clubs :", err);
+    setClubs([]);
+  }
+};
+
+
+
+  return { clubs, addClub, handleDelete, setClubs, leagueName,generateClub };
 }
