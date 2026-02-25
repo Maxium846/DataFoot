@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createJoueur, deleteJoueur, getJoueurs } from "../api/joueurs";
+import { getJoueurs } from "../api/joueurs";
 
 export default function useJoueurs(clubId) {
   const [joueurs, setJoueurs] = useState([]);
@@ -21,22 +21,8 @@ export default function useJoueurs(clubId) {
     if (clubId) fetchJoueurs();
   }, [clubId]);
 
-  const addJoueur = async (joueurData) => {
-    try {
-      const newJoueur = await createJoueur(joueurData);
-      setJoueurs((prev) => [...prev, newJoueur]);
-    } catch (err) {
-      console.error("Erreur création", err);
-    }
-  };
+ 
 
-  const handleDelete = (id) => {
-    deleteJoueur(id)
-      .then(() => {
-        setJoueurs((prev) => prev.filter((j) => j.id !== id));
-      })
-      .catch((err) => console.error("Erreur suppression", err));
-  };
 
   const sortByPosition = () => {
     const sorted = [...joueurs].sort((a, b) => {
@@ -49,5 +35,5 @@ export default function useJoueurs(clubId) {
     setAsc(!asc);
   };
 
-  return { joueurs, addJoueur, handleDelete, sortByPosition };
+  return { joueurs, sortByPosition };
 }

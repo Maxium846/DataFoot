@@ -12,24 +12,7 @@ export async function getJoueurs(id){
     }
 }
 
-export async function createJoueur(joueurs){
 
-const res = await fetch ("http://localhost:8081/api/players" , {
-
-    method: "POST",
-    headers: { "Content-Type" : "application/json"},
-    body : JSON.stringify(joueurs)
-});
-return res.json();
-}
-
-export async function deleteJoueur(id) {
-
-    return await fetch("http://localhost:8081/api/players/" + id,{
-
-        method: "DELETE"
-    })
-}
 
 export async function getJoueurById (id){
 

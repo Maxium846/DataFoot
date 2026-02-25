@@ -1,12 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useJoueurs from "../../hooks/useJoueurs";
-import JoueursForm from "./JoueursForm";
 import "../../css/joueurs.css";
 
 const Joueurs = () => {
   const { clubId } = useParams();
   const navigate = useNavigate();
-  const { joueurs, addJoueur, handleDelete, sortByPosition } =
+  const { joueurs, sortByPosition } =
     useJoueurs(clubId);
 
   return (
@@ -34,15 +33,12 @@ const Joueurs = () => {
                 <td>{j.dateDeNaissance}</td>
                 <td>{j.age}</td>
                 <td>{j.nation}</td>
-                <td>
-                  <button onClick={() => handleDelete(j.id)}>Supprimer</button>
-                </td>
+                
               </tr>
             ))}
           </tbody>
         </table>
 
-        <JoueursForm onSubmit={addJoueur} clubId={clubId}></JoueursForm>
       </div>
   );
 };

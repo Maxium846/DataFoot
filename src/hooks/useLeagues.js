@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { geClubByLeagueById } from "../api/leaguesApi";
-import { createClub, deleteClub } from "../api/api";
 import { generateClubs } from "../api/club";
 
 export default function useLeagues(leagueId) {
@@ -34,21 +33,8 @@ export default function useLeagues(leagueId) {
 
   }, [leagueId]);
 
-  const addClub = (clubData) => {
-    createClub({ ...clubData, leagueId: Number(leagueId) })
-      .then((newClub) => {
-        setClubs((prev) => [...prev, newClub]); // mise à jour immédiate de la table
-      })
-      .catch((err) => console.error("Erreur lors de l'ajout du club :", err));
-  };
-  const handleDelete = (id) => {
-    deleteClub(id)
-      .then(() => {
-        setClubs((prev) => prev.filter((club) => club.id !== id));
-      })
-      .catch((err) => console.error("Erreur lors de la suppression :", err));
-  };
-
+ 
+  
 const generateClub = async (leagueId) => {
   try {
     const data = await generateClubs(leagueId);
@@ -68,5 +54,5 @@ const generateClub = async (leagueId) => {
 
 
 
-  return { clubs, addClub, handleDelete, setClubs, leagueName,generateClub };
+  return { clubs, setClubs, leagueName,generateClub };
 }

@@ -38,12 +38,6 @@ export const updateMatchScore = async (matchId, homeGoals, awayGoals) => {
   return res.json();
 };
 
-
-
-
-
-
-
 export const getClassementByLeague = async (leagueId) => {
   // ⚡ utiliser l'URL complète avec le port du backend
   const res = await fetch(`http://localhost:8081/api/leagues/${leagueId}/classement`);

@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import ClubForm from "./ClubForm";
 import useClubs from "../../hooks/useLeagues";
 export default function ClubList() {
   const { leagueId } = useParams();
@@ -7,7 +6,7 @@ export default function ClubList() {
   // State pour le nom de la ligue
 
   // Hook pour gérer les clubs
-  const { clubs, addClub, handleDelete, leagueName, generateClub } =
+ const { clubs, leagueName, generateClub } =
     useClubs(leagueId);
   // Charger le nom de la ligue et ses clubs depuis le backend
 
@@ -30,7 +29,6 @@ export default function ClubList() {
         <thead>
           <tr>
             <th>Nom</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -38,11 +36,6 @@ export default function ClubList() {
             clubs.map((club) => (
               <tr key={club.id}>
                 <td>{club.name}</td>
-                <td>
-                  <button onClick={() => handleDelete(club.id)}>
-                    Supprimer
-                  </button>
-                </td>
               </tr>
             ))
           ) : (
@@ -52,9 +45,6 @@ export default function ClubList() {
           )}
         </tbody>
       </table>
-
-      <h3>Ajouter un club</h3>
-      <ClubForm onSubmit={addClub} leagueId={leagueId} />
     </div>
   );
 }

@@ -39,13 +39,6 @@ export async function getClassementByLeague(leagueId) {
     return null;
   }
 }
-export async function getStandings(league) {
-  const url = `https://api.footballstandings.com/leagues/${league}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Erreur récupération standings");
-  return res.json();
-}
-
 // src/api/matchesApi.js
 export async function getMatchesByLeague(leagueId) {
   try {
