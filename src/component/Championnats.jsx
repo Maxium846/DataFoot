@@ -13,7 +13,6 @@ classement,
 loading,
 error,
 handleGenerateCalendar,
-handleScoreChange,
 matchesByJournee,
 } = useMatches(leagueId);
 
@@ -77,7 +76,6 @@ Classement </button>
               key={journee}
               journee={journee}
               matches={matchs}
-              onScoreChange={handleScoreChange}
               league = {leagueId}
             />
           ))

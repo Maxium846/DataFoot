@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { generateCalendar, updateMatchScore } from "../api/matchApi";
+import { generateCalendar } from "../api/matchApi";
 import { getClassementByLeague, getMatchesByLeague } from "../api/leaguesApi";
 import { useParams } from "react-router-dom";
 
 export default function useMatches() {
-  const { leagueId } = useParams();
+const { leagueId } = useParams();
 const [classement, setClassement] = useState([]);
 const [matches, setMatches] = useState([]);
 const [loading, setLoading] = useState(true);
@@ -12,7 +12,6 @@ const [error, setError] = useState(null);
 
 
 
-  // 🔹 Récupération des données depuis la BDDs
   const fetchData = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -66,24 +65,7 @@ const [error, setError] = useState(null);
     }, {});
   }, [matches]);
 
-  // 🔹 Mise à jour des scores
-  const handleScoreChange = async (matchId, homeGoals, awayGoals) => {
-    try {
-      const updatedClassement = await updateMatchScore(matchId, homeGoals, awayGoals);
-
-      setClassement(updatedClassement);
-
-      setMatches((prevMatches) =>
-        prevMatches.map((m) =>
-          m.id === matchId
-            ? { ...m, homeGoals, awayGoals, played: true }
-            : m
-        )
-      );
-    } catch (err) {
-      console.error("Erreur update score :", err);
-    }
-  };
+  
 
   // 🔹 On charge les données au montage
   useEffect(() => {
@@ -95,7 +77,6 @@ const [error, setError] = useState(null);
     loading,
     error,
     handleGenerateCalendar,
-    handleScoreChange,
     matchesByJournee,
     matches,
   };

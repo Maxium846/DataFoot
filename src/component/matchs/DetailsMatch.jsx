@@ -80,10 +80,10 @@ const MatchDetails = ({ onMatchValidated }) => {
     if (!match || match.status === "FINISHED") return;
 
     const homeGoals = events.filter(
-      (e) => e.eventType === "GOAL" && e.clubId === match.homeClubId
+      (e) => (e.eventType === "GOAL" || e.eventType === "PENALTY_GOAL") && e.clubId === match.homeClubId ,
     ).length;
     const awayGoals = events.filter(
-      (e) => e.eventType === "GOAL" && e.clubId === match.awayClubId
+      (e) => (e.eventType === "GOAL" || e.eventType === "PENALTY_GOAL") && e.clubId === match.awayClubId,(e) => e.eventType === "PENALTY_GOAL" && e.clubId === match.awayClubId 
     ).length;
 
     try {
@@ -115,12 +115,17 @@ const MatchDetails = ({ onMatchValidated }) => {
   );
 
   // 🔹 Calcul score live
-  const homeGoals = events.filter(
-    (e) => e.eventType === "GOAL" && e.clubId === match.homeClubId
-  );
-  const awayGoals = events.filter(
-    (e) => e.eventType === "GOAL" && e.clubId === match.awayClubId
-  );
+ const homeGoals = events.filter(
+  (e) =>
+    (e.eventType === "GOAL" || e.eventType === "PENALTY_GOAL") &&
+    e.clubId === match.homeClubId
+);
+
+const awayGoals = events.filter(
+  (e) =>
+    (e.eventType === "GOAL" || e.eventType === "PENALTY_GOAL") &&
+    e.clubId === match.awayClubId
+);
 
   return (
     <div>

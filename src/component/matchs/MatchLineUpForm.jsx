@@ -138,10 +138,10 @@ const MatchLineUpForm = () => {
                   }
                   style={{ marginLeft: "10px" }}
                 >
-                  <option value="Goalkeeper">Goalkeeper</option>
-                  <option value="Defender">Defender</option>
-                  <option value="Midfielder">Midfielder</option>
-                  <option value="Forward">Forward</option>
+                  <option value="GK">Goalkeeper</option>
+                  <option value="DEF">Defender</option>
+                  <option value="MID">Midfielder</option>
+                  <option value="FWD">Forward</option>
                 </select>
               </div>
             ))}

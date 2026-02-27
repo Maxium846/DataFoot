@@ -1,13 +1,12 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useClubs from "../../hooks/useLeagues";
 export default function ClubList() {
   const { leagueId } = useParams();
-
+  const navigate = useNavigate();
   // State pour le nom de la ligue
 
   // Hook pour gérer les clubs
- const { clubs, leagueName, generateClub } =
-    useClubs(leagueId);
+  const { clubs, leagueName, generateClub } = useClubs(leagueId);
   // Charger le nom de la ligue et ses clubs depuis le backend
 
   return (
@@ -23,7 +22,9 @@ export default function ClubList() {
             border: "none",
             borderRadius: "5px",
           }}
-        >Generer club</button>
+        >
+          Generer club
+        </button>
       </div>
       <table border="1" cellPadding="8">
         <thead>
@@ -35,7 +36,7 @@ export default function ClubList() {
           {clubs.length > 0 ? (
             clubs.map((club) => (
               <tr key={club.id}>
-                <td>{club.name}</td>
+                <td onClick={()=> navigate(`/ficheClub/:leagueId/${club.id}`)}>{club.name}</td>
               </tr>
             ))
           ) : (
