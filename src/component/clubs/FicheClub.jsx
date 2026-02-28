@@ -56,15 +56,11 @@ const FicheClub = () => {
           <div className="club-details">
             <span className="label">Nom:</span>
             <span>{ficheClub.name}</span>
-
-            <span className="label">Président:</span>
-            <span>{ficheClub.president}</span>
-
             <span className="label">Entraîneur:</span>
             <span>{ficheClub.entraineur}</span>
 
             <span className="label">Année de création:</span>
-            <span>{ficheClub.dateCreation}</span>
+            <span>{ficheClub.dateFondation}</span>
           </div>
         </div>
 

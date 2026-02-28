@@ -289,28 +289,7 @@ const Pitch = ({
       />
 
       {/* Surfaces haut */}
-      <div
-        style={{
-          position: "absolute",
-          left: "18%",
-          top: 0,
-          width: "64%",
-          height: "18%",
-          border: `2px solid ${line}`,
-          borderBottom: "none",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          left: "30%",
-          top: 0,
-          width: "40%",
-          height: "7%",
-          border: `2px solid ${line}`,
-          borderBottom: "none",
-        }}
-      />
+     
 
       {/* Arc surface haut */}
       <div
@@ -331,28 +310,7 @@ const Pitch = ({
       />
 
       {/* Surfaces bas */}
-      <div
-        style={{
-          position: "absolute",
-          left: "18%",
-          bottom: 0,
-          width: "64%",
-          height: "18%",
-          border: `2px solid ${line}`,
-          borderTop: "none",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          left: "30%",
-          bottom: 0,
-          width: "40%",
-          height: "7%",
-          border: `2px solid ${line}`,
-          borderTop: "none",
-        }}
-      />
+      
 
       {/* Arc surface bas */}
       <div
