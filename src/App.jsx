@@ -7,6 +7,7 @@ import Joueurs from "./component/joueurs/Joueurs";
 import MatchLineupForm from "./component/matchs/MatchLineUpForm";
 import DetailsMatch from "./component/matchs/DetailsMatch";
 import StatJoueurs from "./component/joueurs/StatsJoueur";
+import MatchStats from "./component/matchs/MatchStats";
 
 
 function App() {
@@ -26,7 +27,10 @@ function App() {
           path="/ficheClub/:leagueId/:clubId"
           element={<FicheClub></FicheClub>}
         />
-       
+          <Route
+          path="/match/:matchId/stats"
+          element={<MatchStats></MatchStats>}
+        />
         <Route
           path="/joueurs/:clubId"
           element={<Joueurs></Joueurs>}

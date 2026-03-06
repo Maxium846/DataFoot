@@ -109,3 +109,12 @@ export const getMatchStatByMatchId = async (matchId) => {
   return res.json();
 };
 
+export const getStatByMatchId = async (matchId) => {
+const res = await fetch ("http://localhost:8081/api/matchStat/match/" + matchId)
+if (!res .ok){
+
+  throw new Error("Erreur lors de chargement des stats du match")
+}
+return res.json()
+
+}
