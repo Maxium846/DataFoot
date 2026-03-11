@@ -39,15 +39,5 @@ export async function getClassementByLeague(leagueId) {
     return null;
   }
 }
-// src/api/matchesApi.js
-export async function getMatchesByLeague(leagueId) {
-  try {
-    const res = await fetch(`http://localhost:8081/api/matches/league/${leagueId}`);
-    if (!res.ok) throw new Error("Erreur lors du chargement des matchs");
-    return res.json(); // renvoie un tableau de matchs
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-}
+
 

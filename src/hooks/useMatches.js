@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { generateCalendar } from "../api/matchApi";
-import { getClassementByLeague, getMatchesByLeague } from "../api/leaguesApi";
+import { getClassementByLeague } from "../api/leaguesApi";
 import { useParams } from "react-router-dom";
+import { getMatchesByLeague } from "../api/matchApi";
 
 export default function useMatches() {
 const { leagueId } = useParams();
@@ -34,22 +34,7 @@ const [error, setError] = useState(null);
   }, [leagueId]);
 
   // 🔹 Génération du calendrier via backend
-  const handleGenerateCalendar = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      // Appelle le backend qui récupère tout depuis FPL
-      await generateCalendar(leagueId);
-
-      // Recharge les matchs depuis ta BDD
-      await fetchData();
-    } catch (err) {
-      console.error("Erreur génération calendrier :", err);
-      setError("Impossible de générer le calendrier.");
-    } finally {
-      setLoading(false);
-    }
-  }, [leagueId, fetchData]);
+  
 
   // 🔹 Classement des matchs par journée
   const matchesByJournee = useMemo(() => {
@@ -76,7 +61,6 @@ const [error, setError] = useState(null);
     classement,
     loading,
     error,
-    handleGenerateCalendar,
     matchesByJournee,
     matches,
   };

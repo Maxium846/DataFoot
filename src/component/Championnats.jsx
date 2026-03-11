@@ -12,7 +12,6 @@ const {
 classement,
 loading,
 error,
-handleGenerateCalendar,
 matchesByJournee,
 } = useMatches(leagueId);
 
@@ -59,14 +58,6 @@ Classement </button>
   {view === "calendrier" && (
     <div>
       <h1>Calendrier</h1>
-
-      <button
-        onClick={handleGenerateCalendar}
-        style={{ marginBottom: "20px" }}
-      >
-        Générer le calendrier
-      </button>
-
       <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
         {Object.keys(matchesByJournee).length === 0 ? (
           <p>Aucun calendrier disponible pour cette ligue.</p>
