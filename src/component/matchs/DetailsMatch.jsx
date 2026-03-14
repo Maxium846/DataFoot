@@ -56,6 +56,7 @@ const MatchDetails = () => {
   const [match, setMatch] = useState(null);
   const [lineups, setLineups] = useState([]);
   const [events, setEvents] = useState([]);
+  
   const navigate = useNavigate()
 
   useEffect(() => {

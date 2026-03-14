@@ -3,6 +3,8 @@ import "../../css/calendrier.css";
 
 const MatchTables = ({ journee, matches, league }) => {
   const navigate = useNavigate();
+  console.log(matches)
+  console.log(journee)
 
   if (!matches || matches.length === 0)
     return <p>Aucun match pour cette journée.</p>;

@@ -32,7 +32,7 @@ const defaultY = { FWD: 22, MID: 45, DEF: 68, GK: 88 };
 
 const PlayerDot = ({ player, x, y, color, onClick, badges = [] }) => {
   const size = 44;
-
+  console.log(player);
   return (
     <button
       type="button"
@@ -289,7 +289,6 @@ const Pitch = ({
       />
 
       {/* Surfaces haut */}
-     
 
       {/* Arc surface haut */}
       <div
@@ -310,7 +309,6 @@ const Pitch = ({
       />
 
       {/* Surfaces bas */}
-      
 
       {/* Arc surface bas */}
       <div
