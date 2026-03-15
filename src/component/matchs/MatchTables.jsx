@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "../../css/calendrier.css";
 
-const MatchTables = ({ journee, matches, league }) => {
+const MatchTables = ({ journee, matches }) => {
   const navigate = useNavigate();
   console.log(matches)
   console.log(journee)
@@ -29,16 +29,6 @@ const MatchTables = ({ journee, matches, league }) => {
             </div>
 
             <div className="team team-away">{m.awayClubName}</div>
-
-            <button
-              className="compo-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate(`/match/${m.id}/composition/${league}`);
-              }}
-            >
-              Compos
-            </button>
           </div>
         ))}
       </div>

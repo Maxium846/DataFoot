@@ -4,10 +4,9 @@ import Entete from "./component/common/Entete";
 import FicheClub from "./component/clubs/FicheClub";
 import Championnats from "./component/Championnats";
 import Joueurs from "./component/joueurs/Joueurs";
-import MatchLineupForm from "./component/matchs/MatchLineUpForm";
-import DetailsMatch from "./component/matchs/DetailsMatch";
 import StatJoueurs from "./component/joueurs/StatsJoueur";
 import MatchStats from "./component/matchs/MatchStats";
+import Match from "./component/matchs/Match";
 
 
 function App() {
@@ -35,13 +34,10 @@ function App() {
           path="/joueurs/:clubId"
           element={<Joueurs></Joueurs>}
         />
-         <Route
-          path="/match/:matchId/composition/:leagueId"
-          element={<MatchLineupForm></MatchLineupForm>}
-        />
+       
          <Route
           path="/match/:matchId"
-          element={<DetailsMatch></DetailsMatch>}
+          element={<Match></Match>}
         />
          <Route
           path="/joueurs/:clubId/:joueurId"

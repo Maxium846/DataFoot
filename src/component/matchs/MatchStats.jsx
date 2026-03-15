@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { getStatByMatchId } from "../../api/matchApi";
 
 const rowStyle = {
@@ -15,8 +14,7 @@ const labelStyle = {
   fontWeight: 700,
 };
 
-const MatchStats = () => {
-  const { matchId } = useParams();
+const MatchStats = ({matchId}) => {
   const [statsMatch, setStatsMatch] = useState([]);
 
   useEffect(() => {
