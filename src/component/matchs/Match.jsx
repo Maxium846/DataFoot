@@ -51,6 +51,7 @@ const Match = () => {
     (l) => l.clubId === match.awayClubId && l.starter,
   );
 
+  console.log(lineUp)
   return (
     <div>
       <div

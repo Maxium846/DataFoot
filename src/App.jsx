@@ -7,6 +7,7 @@ import Joueurs from "./component/joueurs/Joueurs";
 import StatJoueurs from "./component/joueurs/StatsJoueur";
 import MatchStats from "./component/matchs/MatchStats";
 import Match from "./component/matchs/Match";
+import StatChampionnatJoueurs from "./component/joueurs/StatChampionnatJoueurs";
 
 
 function App() {
@@ -42,6 +43,10 @@ function App() {
          <Route
           path="/joueurs/:clubId/:joueurId"
           element={<StatJoueurs></StatJoueurs>}
+        />
+           <Route
+          path="/championnat/:leagueId/stats"
+          element={<StatChampionnatJoueurs></StatChampionnatJoueurs>}
         />
       </Routes>
     </div>

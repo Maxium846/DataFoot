@@ -40,3 +40,18 @@ export async function getStatByJoueur (id){
         return null;
     }
 }
+
+export async function getStatByJoueurByChampionnat(leagueId){
+
+    const res  = await fetch ("http://localhost:8081/api/players/stat/"+ leagueId)
+    try{
+    if(!res.ok){
+        throw new Error("erreur lors du chargement des stats des joueurs")
+    }
+    return res.json()
+}catch(error){
+        console.log(error)
+        return null;
+    }
+    
+}
