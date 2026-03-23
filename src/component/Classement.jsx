@@ -30,7 +30,7 @@ const Classement = ({ classement, loading }) => {
           {classement.map((c, index) => (
             <tr key={c.clubId}>
               <td>{index + 1}</td>
-              <td onClick={() =>navigate(`/ficheClub/${leagueId}/${c.clubId}`)}>{c.clubName}</td>
+              <td className="team" onClick={() =>navigate(`/ficheClub/${leagueId}/${c.clubId}`)}>{c.clubName}</td>
               <td>{c.played}</td>
               <td>{c.points}</td>
               <td>{c.wins}</td>

@@ -7,7 +7,7 @@ import Joueurs from "./component/joueurs/Joueurs";
 import StatJoueurs from "./component/joueurs/StatsJoueur";
 import MatchStats from "./component/matchs/MatchStats";
 import Match from "./component/matchs/Match";
-import StatChampionnatJoueurs from "./component/joueurs/StatChampionnatJoueurs";
+import StatChampionnatJoueurs from "./component/joueurs/stats/StatChampionnatJoueurs";
 
 
 function App() {

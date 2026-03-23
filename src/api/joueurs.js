@@ -43,7 +43,7 @@ export async function getStatByJoueur (id){
 
 export async function getStatByJoueurByChampionnat(leagueId){
 
-    const res  = await fetch ("http://localhost:8081/api/players/stat/"+ leagueId)
+    const res  = await fetch ("http://localhost:8081/api/playersStat/stat/"+ leagueId)
     try{
     if(!res.ok){
         throw new Error("erreur lors du chargement des stats des joueurs")
@@ -54,4 +54,18 @@ export async function getStatByJoueurByChampionnat(leagueId){
         return null;
     }
     
+    
+}
+export async function getStatPasseur(leagueId){
+
+    const res  = await fetch ("http://localhost:8081/api/playersStat/stat/assist/"+ leagueId)
+    try{
+    if(!res.ok){
+        throw new Error("erreur lors du chargement des stats des joueurs")
+    }
+    return res.json()
+}catch(error){
+        console.log(error)
+        return null;
+    }
 }
