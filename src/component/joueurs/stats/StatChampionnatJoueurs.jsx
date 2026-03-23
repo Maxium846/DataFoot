@@ -8,18 +8,30 @@ import StatPasseur from "./StatPasseur";
 const StatChampionnatJoueurs = () => {
   const { leagueId } = useParams();
 
-  const { statBut,statPasse } = useStatJoueur(leagueId);
-  const [view, setView] = useState("Buteur");
+  const { statOffensive, statPasse, trierStatOffensive } =
+    useStatJoueur(leagueId);
+  const [view, setView] = useState("StatOffensive");
 
-  console.log(statPasse)
   return (
     <>
-      <button onClick={() => setView("Buteur")}>Buteur</button>
-      <button onClick={() => setView("Passeur")}>Passeur</button>
-      <button onClick={() => setView("PrecisionPasse")}>Precision Passe</button>
+      <select onChange={(e)=>setView(e.target.value)}>
+        {
+          <>
+          <option value={"StatOffensive"}>Buteur</option>
+          <option value={"StatPasse"}>Passeur</option>
+          </>
+        }
+      </select>
 
-      {view === "Buteur" && <StatButeur statButeur={statBut}></StatButeur>}
-      {view === "Passeur" && <StatPasseur statPasseur= {statPasse}></StatPasseur>}
+      {view === "StatOffensive" && (
+        <StatButeur
+          statOffensive={statOffensive}
+          trierStatOffensive={trierStatOffensive}
+        ></StatButeur>
+      )}
+      {view === "StatPasse" && (
+        <StatPasseur statPasseur={statPasse}></StatPasseur>
+      )}
     </>
   );
 };
