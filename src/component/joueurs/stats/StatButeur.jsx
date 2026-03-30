@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import "../../../css/ficheC.css";
+import "../../../css/statJoueur.css";
 
-const StatButeur = ({ statOffensive, trierStatOffensive }) => {
+const StatButeur = ({ statOffensive, trierStat }) => {
   const navigate = useNavigate();
 
   const conversionTirTirCadre = (shootOntarget, totalShoot) => {
@@ -17,31 +18,32 @@ const StatButeur = ({ statOffensive, trierStatOffensive }) => {
         <tr>
           <th>Rang</th>
           <th>nom</th>
-          <th className="player" onClick={() => trierStatOffensive("totalBut")}>
+          <th className="player" onClick={() => trierStat("totalBut")}>
             Buts
           </th>
 
           <th
             className="player"
-            onClick={() => trierStatOffensive("totalShoot")}
+            onClick={() => trierStat("totalShoot")}
           >
             Tirs
           </th>
           <th
             className="player"
-            onClick={() => trierStatOffensive("shootOnTarget")}
+            onClick={() => trierStat("shootOnTarget")}
           >
             Tirs cadrés
           </th>
           <th>Ratio tir/tirCadré</th>
-          <th>but/tir</th>
+          <th>Ratio But/tir</th>
           <th>Equipe</th>
         </tr>
       </thead>
 
       <tbody>
         {statOffensive.map((stat, index) => (
-          <tr key={stat.playerId}>
+          //clé stat.club id necessaire car un joueur peux changer de club en cours de saison , il se retrouve alors avec deux clés 
+          <tr key={`${stat.playerId}-${stat.clubId}`}>
             <td>{index + 1}</td>
             <td
               className="player"
@@ -56,9 +58,9 @@ const StatButeur = ({ statOffensive, trierStatOffensive }) => {
             <td>{stat.totalShoot}</td>
             <td>{stat.shootOnTarget}</td>
             <td>
-              {conversionTirTirCadre(stat.shootOnTarget, stat.totalShoot)}
+              {conversionTirTirCadre(stat.shootOnTarget, stat.totalShoot) +"%"}
             </td>
-            <td>{conversionbutTire(stat.totalBut, stat.totalShoot)}</td>
+            <td>{conversionbutTire(stat.totalBut, stat.totalShoot) + "%"}</td>
 
             <td className="club-cell">
               <span>{stat.clubName}</span>

@@ -1,0 +1,36 @@
+.div{
+  border-radius: 0.5em;
+  font: 1.2em sans-serif;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+ }
+.input{
+     width: "100%";
+     box-sizing: "border-box";
+     padding: 8px;
+     flex-wrap: nowrap;
+     
+}
+.guess-container table {
+  border-collapse: separate;
+  width: 50%;
+  border-spacing: 20px;
+  margin: 0 auto;
+
+}
+
+.guess-container th,
+.guess-container td {
+  border-radius: 50px;
+  overflow: hidden;
+  text-align: center;
+}
+.cell {
+  background-color: lightgray;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}

@@ -12,6 +12,19 @@ export async function getJoueurs(id){
     }
 }
 
+export async function getAllJoueur(){
+
+    const res = await fetch ("http://localhost:8081/api/players/allPlayers")
+    try{
+        if(!res.ok){
+            throw new Error("Erreur lors du chargement des joueurs")
+        }
+        return await res.json()
+    }catch(error){
+        console.log(error)
+        return null;
+    }
+}
 
 
 export async function getJoueurById (id){
@@ -41,9 +54,9 @@ export async function getStatByJoueur (id){
     }
 }
 
-export async function getStatByJoueurByChampionnat(leagueId){
+export async function getStatByJoueurByChampionnat(leagueId,page =0 ,size =20){
 
-    const res  = await fetch ("http://localhost:8081/api/playersStat/stat/"+ leagueId)
+    const res  = await fetch (`http://localhost:8081/api/playersStat/offensive/${leagueId}?page=${page}&size=${size}`)
     try{
     if(!res.ok){
         throw new Error("erreur lors du chargement des stats des joueurs")
@@ -56,9 +69,9 @@ export async function getStatByJoueurByChampionnat(leagueId){
     
     
 }
-export async function getStatPasseur(leagueId){
+export async function getStatPasseur(leagueId,page,size){
 
-    const res  = await fetch ("http://localhost:8081/api/playersStat/stat/assist/"+ leagueId)
+    const res  = await fetch (`http://localhost:8081/api/playersStat/stat/assist/${leagueId}?page=${page}&size=${size}`)
     try{
     if(!res.ok){
         throw new Error("erreur lors du chargement des stats des joueurs")

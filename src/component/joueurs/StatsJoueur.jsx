@@ -1,46 +1,63 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getJoueurById, getStatByJoueur } from "../../api/joueurs";
+import { getJoueurById, getJoueurs, getStatByJoueur } from "../../api/joueurs";
 import "../../css/joueurs.css";
 
 const StatJoueurs = () => {
-  const { joueurId } = useParams();
+  const { joueurId, clubId } = useParams();
 
+  const navigate = useNavigate();
   const [joueur, setJoueur] = useState(null);
   const [stat, setStat] = useState(null);
+  const [club, setClub] = useState([]);
 
-        console.log(joueurId)
+  const [selectedPlayer, setSelectedPlayer] = useState("");
 
   useEffect(() => {
     const fetchJoueur = async () => {
-
       const data = await getJoueurById(joueurId);
-      console.log(data)
-
       const datastat = await getStatByJoueur(joueurId);
-      console.log(datastat)
+      const dataClub = await getJoueurs(clubId);
       setJoueur(data);
       setStat(datastat);
+      setClub(dataClub);
     };
 
     fetchJoueur();
-  }, [joueurId]);
+  }, [joueurId, clubId]);
+  const handleChange = (e) => {
+    const playerId = e.target.value;
+    setSelectedPlayer(playerId);
+    navigate(`/joueurs/${clubId}/${playerId}`);
+  };
   if (!joueur) return <p>Chargement...</p>;
 
   return (
     <div>
+      <div>
+        <select onChange={handleChange}>
+          <option value={selectedPlayer}>-- Joueur</option>
+          {club.map((c) => (
+            <option
+              onClick={() => navigate(`/joueurs/${clubId}/${c.id}`)}
+              key={c.id}
+              value={c.id}
+            >
+              {c.firstName}
+            </option>
+          ))}
+        </select>
+      </div>
       <div className="player-card">
         <div className="player-header">
-          <div className="player-avatar">
-            {joueur.firstName?.[0]}
-            {joueur.lastName?.[0]}
+          <div>
+            <img src={joueur.photo}></img>
           </div>
 
           <div>
             <h2>
               {joueur.firstName} {joueur.lastName}
             </h2>
-            <p className="player-position">{joueur.position}</p>
           </div>
         </div>
 

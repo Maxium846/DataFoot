@@ -11,6 +11,8 @@ const Classement = ({ classement, loading }) => {
 
   return (
     <div className="page">
+
+ 
       <table className="classement-table">
         <thead>
           <tr>

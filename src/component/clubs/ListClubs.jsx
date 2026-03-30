@@ -6,25 +6,15 @@ export default function ClubList() {
   // State pour le nom de la ligue
 
   // Hook pour gérer les clubs
-  const { clubs, leagueName, generateClub } = useClubs(leagueId);
+  const { clubs, leagueName } = useClubs(leagueId);
   // Charger le nom de la ligue et ses clubs depuis le backend
 
+  console.log(clubs.id)
   return (
     <div>
       <h2>Clubs du championnat de {leagueName || "..."}</h2>
       <div>
-        <button
-          onClick={() => generateClub(leagueId)}
-          style={{
-            padding: "8px 16px",
-            backgroundColor: "#007bff",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-          }}
-        >
-          Generer club
-        </button>
+    
       </div>
       <table border="1" cellPadding="8">
         <thead>
@@ -36,7 +26,7 @@ export default function ClubList() {
           {clubs.length > 0 ? (
             clubs.map((club) => (
               <tr key={club.id}>
-                <td onClick={()=> navigate(`/ficheClub/:leagueId/${club.id}`)}>{club.name}</td>
+                <td onClick={()=> navigate(`/ficheClub/${leagueId}/${club.id}`)}>{club.name}</td>
               </tr>
             ))
           ) : (
