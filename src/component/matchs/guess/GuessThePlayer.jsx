@@ -1,16 +1,54 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getAllJoueur } from "../../../api/joueurs";
 import "../../../css/guessThePlayer.css";
 import GuessAffichage from "./GuessAffichage";
-
+import GuessPlayerInput from "./GuessPlayerInput";
 const GuessThePlayer = () => {
   const [listeJoueur, setListeJoueur] = useState([]);
   const [randomPlayer, setRandomPlayer] = useState(null);
   const [name, setName] = useState("");
-  const [selectedPlayer, setSelectedPlayer] = useState(null); // joueur sélectionné
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [composant, setComposant] = useState(false);
   const [guesse, setGuess] = useState([]);
   const [count, setCount] = useState(null);
+  const [victoire, setVictoire] = useState(false);
+
+  const indice = useMemo(() => {
+    if (!randomPlayer) return [];
+
+    return [
+      { seuil: 2, text: "la nation est " + randomPlayer.nation },
+
+      {
+        seuil: 3,
+        text: (
+          <>
+            le club du joueur est {""}{" "}
+            <img className="logoStat" src={randomPlayer.logo}></img>{" "}
+          </>
+        ),
+      },
+    ];
+  }, [randomPlayer]);
+
+  const indicateur = [
+    {
+      item: "",
+      texte: "correct",
+    },
+    {
+      item: "",
+      texte: "incorect",
+    },
+    {
+      item: "⬆️",
+      texte: " moins agé",
+    },
+    {
+      item: "⬇️",
+      texte: "plus agé",
+    },
+  ];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,17 +62,12 @@ const GuessThePlayer = () => {
     if (listeJoueur.length === 0) return;
     setGuess([]);
     setCount(0);
+    setVictoire(false);
+    setName("")
     const index = Math.floor(Math.random() * listeJoueur.length);
     setRandomPlayer(listeJoueur[index]);
   };
 
-  const tentative = (count) => {
-    if (count === 2) {
-      return " La nation du joueur est " + randomPlayer.nation;
-    }else if(count === 5){
-        return "le club du joueur est" + randomPlayer.clubName
-    }
-  };
   // Normalisation pour accents et majuscules
   const normalize = (str) =>
     str
@@ -48,7 +81,7 @@ const GuessThePlayer = () => {
         .filter((player) =>
           normalize(`${player.firstName}`).includes(normalize(name)),
         )
-        .slice(0, 5)
+        .slice(0, 30)
     : [];
 
   const handleSelect = (player) => {
@@ -58,12 +91,21 @@ const GuessThePlayer = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!randomPlayer) return;
+    if (!randomPlayer || !selectedPlayer) return;
     setComposant(true);
+    vic();
     setGuess((prev) => [...prev, selectedPlayer]);
     setName("");
     setCount((prev) => prev + 1);
     setSelectedPlayer(null);
+  };
+
+  const vic = () => {
+    if (!randomPlayer || !selectedPlayer) return;
+
+    if (randomPlayer.firstName === selectedPlayer.firstName) {
+      setVictoire(true);
+    }
   };
   console.log(randomPlayer);
   return (
@@ -72,49 +114,25 @@ const GuessThePlayer = () => {
         {" "}
         <button onClick={pickRandom}>Génerer joueur</button>
       </div>
-       <div>
-          {" "}
-          <h1> Un indice toute les 5 tentative {tentative(count)}</h1>
-        </div>
-      <div className="div">
-        <form onSubmit={handleSubmit}>
-          <input
-            className="input"
-            type="text"
-            placeholder="Tapez un joueur..."
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-              setSelectedPlayer(null);
-            }}
-          />
+      <div className="tentative">
+        <span>Un indice toute les 5 tentatives</span>
+        {indice.map((indice, i) => (
+          <div key={i}>
+            <span>{count >= indice.seuil ? indice.text : ""}</span>
+          </div>
+        ))}
+      </div>
 
-          {name && !selectedPlayer && filteredPlayers.length > 0 && (
-            <ul
-              style={{
-                border: "1px solid #ccc",
-                margin: 0,
-                padding: 0,
-                listStyle: "none",
-                maxHeight: "200px",
-                overflowY: "auto",
-              }}
-            >
-              {filteredPlayers.map((player) => (
-                <li
-                  key={player.id}
-                  onClick={() => handleSelect(player)}
-                  style={{ padding: "8px", cursor: "pointer" }}
-                >
-                  {player.firstName} :{player.clubName}
-                </li>
-              ))}
-            </ul>
-          )}
-          <button type="submit" style={{ marginTop: "10px" }}>
-            Valider
-          </button>
-        </form>
+      <div>
+        <GuessPlayerInput
+          name={name}
+          setName={setName}
+          selectedPlayer={selectedPlayer}
+          setSelectedPlayer={setSelectedPlayer}
+          filteredPlayers={filteredPlayers}
+          handleSelect={handleSelect}
+          handleSubmit={handleSubmit}
+        ></GuessPlayerInput>
       </div>
 
       <div>
@@ -124,8 +142,41 @@ const GuessThePlayer = () => {
           <GuessAffichage random={randomPlayer} guess={guesse}></GuessAffichage>
         )}
       </div>
+      <div className="indicateurContainer">
+        <p className="pIndicateurdeCouleur">Indicateur de couleur</p>
+        <div className="tableDesCouleur">
+          {indicateur.map((indic, i) => (
+            <div className="ligneIndic" key={i}>
+              <div
+                className={
+                  indic.texte === "correct" ? "carreCorrect" : "carreIncorrect"
+                }
+              >
+                <span>{indic.item}</span>
+              </div>
+              <div className="texteIndic">
+                <span>{indic.texte}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
       <div>
         <h1> Nombre de tentative {count}</h1>
+      </div>
+
+      <div className="victoire">
+        <span>
+          {victoire && (
+            <div>
+              <p>Félicitation tu as trouvé le joueur 🥳</p>
+              <img
+                src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExczZ6c2o0ZDR6dXNtMHo5djQwcHd5NnY0dzl3cmlmdHhzeHdzbW15ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/TjAcxImn74uoDYVxFl/giphy.gif"
+                alt="victoire"
+              ></img>
+            </div>
+          )}{" "}
+        </span>
       </div>
     </>
   );

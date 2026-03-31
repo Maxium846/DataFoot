@@ -15,22 +15,146 @@
      
 }
 .guess-container table {
-  border-collapse: separate;
-  width: 50%;
-  border-spacing: 20px;
-  margin: 0 auto;
-
+  border-collapse: collapse;   /* cellules collées pour un look compact */
+  width: 80%;                  /* largeur du tableau (peut être ajustée) */
+  max-width: 500px;            /* limite la taille sur grands écrans */
+  margin: 20px auto;           /* centre le tableau et ajoute un peu d’espace vertical */
+  font-size: 0.85rem;          /* texte un peu plus petit */
 }
 
 .guess-container th,
 .guess-container td {
-  border-radius: 50px;
-  overflow: hidden;
-  text-align: center;
+  border: 1px solid #ccc;      /* bordures fines et discrètes */
+  padding: 6px 10px;           /* réduit l’espace interne sans écraser le texte */
+  text-align: center;   
+  margin-bottom: 10px;        /* centrage du contenu */
+}
+
+.guess-container th {
+  background-color:black;   /* différencie les en-têtes */
+  font-weight: bold;
+}
+
+.guess-container td img {
+  max-width: 50px;             /* si tu as des images dans le tableau */
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 .cell {
   background-color: lightgray;
   border-radius: 10px;
   padding: 10px;
   text-align: center;
+}
+.tentative{
+border-style: inset;
+width: 20%;
+text-align: center;
+margin: auto;
+
+}
+
+.victoire{
+
+  margin: auto;
+  text-align: center;
+}
+.logoStat {
+  width: 20px;
+  height: 20px;
+}
+.indicateurContainer {
+  max-width: 800px;   /* largeur max */
+  margin: 20px auto;  /* centré */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.pIndicateurdeCouleur {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.tableDesCouleur {
+  display: flex;         /* ligne horizontale */
+  flex-direction: row;   /* chaque indicateur à côté */
+  gap: 20px;             /* espace entre chaque indicateur */
+  justify-content: center; /* centrer les indicateurs */
+  flex-wrap: wrap;       /* si beaucoup d’indicateurs, passe à la ligne */
+}
+
+.ligneIndic {
+  display: flex;
+  flex-direction: column; /* carré au-dessus, texte en dessous */
+  align-items: center;    /* centré verticalement */
+  gap: 5px;               /* espace carré <-> texte */
+}
+
+.carreCorrect,
+.carreIncorrect {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  font-weight: bold;
+  color: white;
+  font-size: 1rem;
+}
+
+.carreCorrect {
+  background-color: #4caf50;  /* vert */
+}
+
+.carreIncorrect {
+  background-color: #f44336;  /* rouge */
+}
+
+.texteIndic {
+  font-size: 0.9rem;
+  text-align: center;
+}
+.div {
+  position: relative;
+  width: 400px; /* adapte à ton input */
+  margin: 20px auto;  /* centré */
+}
+ul {
+  position: absolute;
+  top: 100%; /* juste sous l’input */
+  left: 0;
+  width: 100%;
+  
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+
+  max-height: 150px; /* limite la taille */
+  overflow-y: auto; /* scroll si trop d'éléments */
+
+  padding: 0;
+  margin: 5px 0 0 0;
+
+  list-style: none;
+  z-index: 1000;
+}
+li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+li:hover {
+  background-color: #f0f0f0;
+}
+.image{
+    max-width: 50px;             /* si tu as des images dans le tableau */
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }

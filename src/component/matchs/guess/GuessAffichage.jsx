@@ -1,10 +1,13 @@
-
 const GuessAffichage = ({ random, guess }) => {
-
   if (!guess || !random) return null;
 
   const getColor = (value, target) => {
     return value === target ? "lightgreen" : "salmon";
+  };
+
+  const getAge = (value, target) => {
+    if (value === target) return "✅";
+    return value < target ? "⬆️" : "⬇️";
   };
   return (
     <>
@@ -12,9 +15,10 @@ const GuessAffichage = ({ random, guess }) => {
         <table>
           <thead>
             <tr>
-              <th>joueur</th>
+              <th>Joueur</th>
               <th>Nom</th>
               <th>Club</th>
+              <th>Championnat</th>
               <th>Nation</th>
               <th>Position</th>
               <th>Age</th>
@@ -24,7 +28,7 @@ const GuessAffichage = ({ random, guess }) => {
             {guess.map((player) => (
               <tr key={player.id}>
                 <td>
-                  <img src={player.photo}></img>
+                  <img src={player?.photo}></img>
                 </td>
                 <td
                   style={{
@@ -42,6 +46,16 @@ const GuessAffichage = ({ random, guess }) => {
                   }}
                 >
                   {player.clubName}
+                </td>
+                <td
+                  style={{
+                    backgroundColor: getColor(
+                      player.leagueName,
+                      random.leagueName,
+                    ),
+                  }}
+                >
+                  {player.leagueName}
                 </td>
 
                 <td
@@ -62,6 +76,7 @@ const GuessAffichage = ({ random, guess }) => {
                   style={{ backgroundColor: getColor(player.age, random.age) }}
                 >
                   {player.age}
+                  {getAge(player.age, random.age)}
                 </td>
               </tr>
             ))}
