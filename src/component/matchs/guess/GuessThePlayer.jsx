@@ -63,7 +63,7 @@ const GuessThePlayer = () => {
     setGuess([]);
     setCount(0);
     setVictoire(false);
-    setName("")
+    setName("");
     const index = Math.floor(Math.random() * listeJoueur.length);
     setRandomPlayer(listeJoueur[index]);
   };
@@ -75,18 +75,17 @@ const GuessThePlayer = () => {
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "");
 
-  // Liste filtrée et limitée à 10
   const filteredPlayers = name
     ? listeJoueur
         .filter((player) =>
-          normalize(`${player.firstName}`).includes(normalize(name)),
+          normalize(player.firstName).includes(normalize(name)),
         )
         .slice(0, 30)
     : [];
 
   const handleSelect = (player) => {
-    setSelectedPlayer(player);
-    setName(`${player.firstName}`); // remplit l'input
+    setSelectedPlayer(player); // selectione le joueur pour le comparer a randomPlayer
+    setName(player.firstName); // remplit l'input
   };
 
   const handleSubmit = (e) => {
@@ -108,6 +107,7 @@ const GuessThePlayer = () => {
     }
   };
   console.log(randomPlayer);
+  console.log(selectedPlayer)
   return (
     <>
       <div>
