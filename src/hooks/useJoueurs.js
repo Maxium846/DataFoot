@@ -21,7 +21,7 @@ export default function useJoueurs(clubId) {
     if (clubId) fetchJoueurs();
   }, [clubId]);
 
- 
+
 
 
   const sortByPosition = () => {

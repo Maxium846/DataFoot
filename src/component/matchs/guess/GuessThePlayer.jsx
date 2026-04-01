@@ -1,36 +1,76 @@
-import { useEffect, useMemo, useState } from "react";
-import { getAllJoueur } from "../../../api/joueurs";
 import "../../../css/guessThePlayer.css";
 import GuessAffichage from "./GuessAffichage";
 import GuessPlayerInput from "./GuessPlayerInput";
+import useGuessPlayer from "../../../hookGame/useGuessPlayer";
+import { useState } from "react";
 const GuessThePlayer = () => {
-  const [listeJoueur, setListeJoueur] = useState([]);
-  const [randomPlayer, setRandomPlayer] = useState(null);
   const [name, setName] = useState("");
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [composant, setComposant] = useState(false);
-  const [guesse, setGuess] = useState([]);
-  const [count, setCount] = useState(null);
-  const [victoire, setVictoire] = useState(false);
 
-  const indice = useMemo(() => {
-    if (!randomPlayer) return [];
+  const {
+    listeJoueur,
+    guesses,
+    startGame,
+    randomPlayer,
+    count,
+    victory,
+    setGuesses,
+    setVictory,
+    setCount,
+  } = useGuessPlayer();
 
-    return [
-      { seuil: 2, text: "la nation est " + randomPlayer.nation },
+  const handleSelect = (player) => {
+    setSelectedPlayer(player);
+    setName(player.firstName);
+  };
+  const vic = () => {
+    if (!randomPlayer || !selectedPlayer) return;
 
-      {
-        seuil: 3,
-        text: (
-          <>
-            le club du joueur est {""}{" "}
-            <img className="logoStat" src={randomPlayer.logo}></img>{" "}
-          </>
-        ),
-      },
-    ];
-  }, [randomPlayer]);
+    if (randomPlayer.firstName === selectedPlayer.firstName) {
+      setVictory(true);
+    }
+  };
 
+  const normalize = (str) =>
+    str
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+  const filteredPlayers = name
+    ? listeJoueur
+        .filter((player) =>
+          normalize(player.firstName).includes(normalize(name)),
+        )
+        .slice(0, 30)
+    : [];
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!randomPlayer || !selectedPlayer) return;
+    setComposant(true);
+    vic();
+    setGuesses((prev) => [...prev, selectedPlayer]);
+    setName("");
+    setCount((prev) => prev + 1);
+    setSelectedPlayer(null);
+  };
+
+  const indice = randomPlayer
+    ? [
+        { seuil: 2, text: "la nation est " + randomPlayer.nation },
+        {
+          seuil: 3,
+          text: (
+            <>
+              le club du joueur{" "}
+              <img className="logoStat" src={randomPlayer.logo} />
+            </>
+          ),
+        },
+      ]
+    : [];
   const indicateur = [
     {
       item: "",
@@ -50,69 +90,13 @@ const GuessThePlayer = () => {
     },
   ];
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getAllJoueur();
-      setListeJoueur(data);
-    };
-    fetchData();
-  }, []);
-
-  const pickRandom = () => {
-    if (listeJoueur.length === 0) return;
-    setGuess([]);
-    setCount(0);
-    setVictoire(false);
-    setName("");
-    const index = Math.floor(Math.random() * listeJoueur.length);
-    setRandomPlayer(listeJoueur[index]);
-  };
-
-  // Normalisation pour accents et majuscules
-  const normalize = (str) =>
-    str
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
-
-  const filteredPlayers = name
-    ? listeJoueur
-        .filter((player) =>
-          normalize(player.firstName).includes(normalize(name)),
-        )
-        .slice(0, 30)
-    : [];
-
-  const handleSelect = (player) => {
-    setSelectedPlayer(player); // selectione le joueur pour le comparer a randomPlayer
-    setName(player.firstName); // remplit l'input
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!randomPlayer || !selectedPlayer) return;
-    setComposant(true);
-    vic();
-    setGuess((prev) => [...prev, selectedPlayer]);
-    setName("");
-    setCount((prev) => prev + 1);
-    setSelectedPlayer(null);
-  };
-
-  const vic = () => {
-    if (!randomPlayer || !selectedPlayer) return;
-
-    if (randomPlayer.firstName === selectedPlayer.firstName) {
-      setVictoire(true);
-    }
-  };
   console.log(randomPlayer);
-  console.log(selectedPlayer)
+  console.log(listeJoueur);
   return (
     <>
       <div>
         {" "}
-        <button onClick={pickRandom}>Génerer joueur</button>
+        <button onClick={startGame}>Génerer joueur</button>
       </div>
       <div className="tentative">
         <span>Un indice toute les 5 tentatives</span>
@@ -139,7 +123,10 @@ const GuessThePlayer = () => {
         {/* Affiche le joueur sélectionné avec détails */}
 
         {composant && (
-          <GuessAffichage random={randomPlayer} guess={guesse}></GuessAffichage>
+          <GuessAffichage
+            random={randomPlayer}
+            guess={guesses}
+          ></GuessAffichage>
         )}
       </div>
       <div className="indicateurContainer">
@@ -167,7 +154,7 @@ const GuessThePlayer = () => {
 
       <div className="victoire">
         <span>
-          {victoire && (
+          {victory && (
             <div>
               <p>Félicitation tu as trouvé le joueur 🥳</p>
               <img
