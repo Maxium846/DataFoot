@@ -9,6 +9,7 @@ import MatchStats from "./component/matchs/MatchStats";
 import Match from "./component/matchs/Match";
 import StatChampionnatJoueurs from "./component/joueurs/stats/StatChampionnatJoueurs";
 import GuessThePlayer from "./component/guess/GuessThePlayer";
+import PageAccueil from "./component/PageAccueil";
 
 
 function App() {
@@ -16,6 +17,11 @@ function App() {
     <div style={{ padding: "20px" }}>
       <Entete></Entete>
       <Routes>
+        
+        <Route
+          path="/"
+          element={<PageAccueil></PageAccueil>}
+        />
         <Route
           path="/championnat/:leagueId/classement"
           element={<Championnats></Championnats>}

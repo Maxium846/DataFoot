@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useJoueurs from "../../hooks/useJoueurs";
 import "../../css/joueurs.css";
-import StatJoueurs from "./StatsJoueur";
 
 const Joueurs = () => {
   const { clubId } = useParams();
