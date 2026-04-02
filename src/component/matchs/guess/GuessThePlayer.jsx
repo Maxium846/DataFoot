@@ -6,31 +6,16 @@ import { useState } from "react";
 const GuessThePlayer = () => {
   const [name, setName] = useState("");
   const [selectedPlayer, setSelectedPlayer] = useState(null);
-  const [composant, setComposant] = useState(false);
 
   const {
-    listeJoueur,
+    listeJoueurGuessFacile,
     guesses,
     startGame,
     randomPlayer,
     count,
     victory,
-    setGuesses,
-    setVictory,
-    setCount,
+    submitGuess,
   } = useGuessPlayer();
-
-  const handleSelect = (player) => {
-    setSelectedPlayer(player);
-    setName(player.firstName);
-  };
-  const vic = () => {
-    if (!randomPlayer || !selectedPlayer) return;
-
-    if (randomPlayer.firstName === selectedPlayer.firstName) {
-      setVictory(true);
-    }
-  };
 
   const normalize = (str) =>
     str
@@ -39,7 +24,7 @@ const GuessThePlayer = () => {
       .replace(/[\u0300-\u036f]/g, "");
 
   const filteredPlayers = name
-    ? listeJoueur
+    ? listeJoueurGuessFacile
         .filter((player) =>
           normalize(player.firstName).includes(normalize(name)),
         )
@@ -48,15 +33,19 @@ const GuessThePlayer = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!randomPlayer || !selectedPlayer) return;
-    setComposant(true);
-    vic();
-    setGuesses((prev) => [...prev, selectedPlayer]);
+
+    if (!selectedPlayer) return;
+
+    submitGuess(selectedPlayer);
+
+    // 👉 logique UI ici
     setName("");
-    setCount((prev) => prev + 1);
     setSelectedPlayer(null);
   };
-
+  const handleSelect = (player) => {
+    setSelectedPlayer(player);
+    setName(player.firstName);
+  };
   const indice = randomPlayer
     ? [
         { seuil: 2, text: "la nation est " + randomPlayer.nation },
@@ -91,7 +80,7 @@ const GuessThePlayer = () => {
   ];
 
   console.log(randomPlayer);
-  console.log(listeJoueur);
+  console.log(listeJoueurGuessFacile);
   return (
     <>
       <div>
@@ -122,7 +111,7 @@ const GuessThePlayer = () => {
       <div>
         {/* Affiche le joueur sélectionné avec détails */}
 
-        {composant && (
+        {guesses.length > 0 && (
           <GuessAffichage
             random={randomPlayer}
             guess={guesses}
