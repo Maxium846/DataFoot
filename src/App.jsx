@@ -8,7 +8,7 @@ import StatJoueurs from "./component/joueurs/StatsJoueur";
 import MatchStats from "./component/matchs/MatchStats";
 import Match from "./component/matchs/Match";
 import StatChampionnatJoueurs from "./component/joueurs/stats/StatChampionnatJoueurs";
-import GuessThePLayer from "./component/matchs/guess/GuessThePlayer";
+import GuessThePlayer from "./component/guess/GuessThePlayer";
 
 
 function App() {
@@ -51,7 +51,7 @@ function App() {
         />
            <Route
           path="/guessThePlayer"
-          element={<GuessThePLayer></GuessThePLayer>}
+          element={<GuessThePlayer></GuessThePlayer>}
         />
       </Routes>
     </div>

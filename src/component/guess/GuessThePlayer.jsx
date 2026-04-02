@@ -1,7 +1,7 @@
-import "../../../css/guessThePlayer.css";
+import "../../css/guessThePlayer.css";
 import GuessAffichage from "./GuessAffichage";
 import GuessPlayerInput from "./GuessPlayerInput";
-import useGuessPlayer from "../../../hookGame/useGuessPlayer";
+import useGuessPlayer from "../../hookGame/useGuessPlayer";
 import { useEffect, useState } from "react";
 import { Button, Tooltip } from "@mui/material";
 const GuessThePlayer = () => {
