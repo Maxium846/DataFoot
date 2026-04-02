@@ -1,18 +1,18 @@
 import { useState } from "react";
 import useAllJoueurs from "../hooks/useAllJoueurs";
 
-const useGuessPlayer = () => {
+const useGuessPlayer = (view) => {
   const [randomPlayer, setRandomPlayer] = useState(null);
   const [guesses, setGuesses] = useState([]);
   const [count, setCount] = useState(0);
   const [victory, setVictory] = useState(false);
 
-  const { listeJoueurGuessFacile } = useAllJoueurs();
+  const { listeJoueur } = useAllJoueurs(view);
 
   const startGame = () => {
-    if (listeJoueurGuessFacile.length === 0) return;
-    const index = Math.floor(Math.random() * listeJoueurGuessFacile.length);
-    setRandomPlayer(listeJoueurGuessFacile[index]);
+    if (listeJoueur.length === 0) return;
+    const index = Math.floor(Math.random() * listeJoueur.length);
+    setRandomPlayer(listeJoueur[index]);
     setGuesses([]);
     setCount(0);
     setVictory(false);
@@ -28,18 +28,23 @@ const useGuessPlayer = () => {
     setVictory(isCorrect);
   };
 
+  const resetGame= () => {
+
+    setCount(0);
+    setRandomPlayer(null);
+    setGuesses([]);
+    setVictory(false);
+  }
 
   return {
     randomPlayer,
     guesses,
-    setGuesses,
     count,
     victory,
     startGame,
-    listeJoueurGuessFacile,
-    setCount,
-    setVictory,
     submitGuess,
+    listeJoueur,
+    resetGame
   };
 };
 

@@ -2,20 +2,25 @@ import "../../../css/guessThePlayer.css";
 import GuessAffichage from "./GuessAffichage";
 import GuessPlayerInput from "./GuessPlayerInput";
 import useGuessPlayer from "../../../hookGame/useGuessPlayer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Button, Tooltip } from "@mui/material";
 const GuessThePlayer = () => {
   const [name, setName] = useState("");
   const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const [view, setView] = useState("Facile");
 
+  const longText = "Il y a trois niveaux de difficulté , Facile, Intermediaire et Difficile."
+  +" Le niveau facile regroupe l'ensemble des joueurs des 5 premiers de Championnats , intermediaire les 10 et difficile l'ensemble des joueurs ";
   const {
-    listeJoueurGuessFacile,
+    listeJoueur,
     guesses,
     startGame,
     randomPlayer,
     count,
     victory,
     submitGuess,
-  } = useGuessPlayer();
+    resetGame,
+  } = useGuessPlayer(view);
 
   const normalize = (str) =>
     str
@@ -24,7 +29,7 @@ const GuessThePlayer = () => {
       .replace(/[\u0300-\u036f]/g, "");
 
   const filteredPlayers = name
-    ? listeJoueurGuessFacile
+    ? listeJoueur
         .filter((player) =>
           normalize(player.firstName).includes(normalize(name)),
         )
@@ -37,8 +42,6 @@ const GuessThePlayer = () => {
     if (!selectedPlayer) return;
 
     submitGuess(selectedPlayer);
-
-    // 👉 logique UI ici
     setName("");
     setSelectedPlayer(null);
   };
@@ -48,16 +51,21 @@ const GuessThePlayer = () => {
   };
   const indice = randomPlayer
     ? [
-        { seuil: 2, text: "la nation est " + randomPlayer.nation },
+        { seuil: 5, text: "la nation est " + randomPlayer.nation },
         {
-          seuil: 3,
+          seuil: 7,
           text: (
             <>
-              le club du joueur{" "}
+              le club du joueur est {" "}
+              {randomPlayer.clubName}
               <img className="logoStat" src={randomPlayer.logo} />
             </>
           ),
         },
+        {
+          seuil : 10,
+          text : " L'age du joueur est  "  + randomPlayer.age
+        }
       ]
     : [];
   const indicateur = [
@@ -79,10 +87,31 @@ const GuessThePlayer = () => {
     },
   ];
 
+  useEffect(() => {
+    resetGame();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view]);
+
+  console.log(listeJoueur);
   console.log(randomPlayer);
-  console.log(listeJoueurGuessFacile);
   return (
     <>
+      <div>
+        <select
+          value={view}
+          onChange={(e) => {
+            setView(e.target.value);
+          }}
+        >
+          <option value={"Facile"}>Facile</option>
+          <option value={"Intermediaire"}>Intermediaire</option>
+          <option value={"Difficile"}>Difficile</option>
+        </select>
+          <Tooltip title={longText}>
+            <Button>ℹ️</Button>
+          </Tooltip>
+      </div>
+
       <div>
         {" "}
         <button onClick={startGame}>Génerer joueur</button>
@@ -97,6 +126,7 @@ const GuessThePlayer = () => {
       </div>
 
       <div>
+        {}
         <GuessPlayerInput
           name={name}
           setName={setName}

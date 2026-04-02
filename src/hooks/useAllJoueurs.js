@@ -1,36 +1,36 @@
-import { useEffect, useState } from "react"
-import { getAllJoueur, getJoueurByGuessFacile } from "../api/joueurs";
+import { useEffect, useState } from "react";
+import { getJoueurBydifficulty } from "../api/joueurs";
 
-const useAllJoueurs = () => {
+const useAllJoueurs = (view) => {
+  const [listeJoueur, setListeJoueur] = useState([]);
+  const [playersCache, setPlayersCache] = useState({});
 
-    const [listeJoueur,setListeJoueur] = useState([]);
-    const [listeJoueurGuessFacile,setListeJoueurGuessFacile] = useState([])
+  useEffect(() => {
+    const fetchData = async () => {
+      // ✅ si déjà en cache
+      if (playersCache[view]) {
+        setListeJoueur(playersCache[view]);
+        return;
+      }
 
-    const leagueId = 1;
-     useEffect(() => {
-     const fetchData = async () => {
-       const data = await getAllJoueur();
-       setListeJoueur(data);
-     };
-     fetchData();
-   }, []);
+      // ✅ sinon API
+      const data = await getJoueurBydifficulty(view);
+      setListeJoueur(data);
 
+      // ✅ on stocke
+      setPlayersCache((prev) => ({
+        ...prev,
+        [view]: data,
+      }));
+    };
 
-  
-     useEffect(() => {
-     const fetchData = async () => {
-       const data = await getJoueurByGuessFacile(leagueId);
-       setListeJoueurGuessFacile(data);
-     };
-     fetchData();
-   }, []);
+    fetchData();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view]);
 
-
-   return {
+  return {
     listeJoueur,
-    listeJoueurGuessFacile
-   }
-}
-
+  };
+};
 
 export default useAllJoueurs;

@@ -39,6 +39,19 @@ export async function getJoueurByGuessFacile(){
     }
 }
 
+export async function getJoueurBydifficulty(difficulty){
+
+    const res = await fetch ("http://localhost:8081/api/players/difficulte/" + difficulty)
+    try{
+        if(!res.ok){
+            throw new Error("Erreur lors du chargement des joueurs")
+        }
+        return await res.json()
+    }catch(error){
+        console.log(error)
+        return null;
+    }
+}
 export async function getJoueurById (id){
 
     const res = await fetch("http://localhost:8081/api/players/" + id)
