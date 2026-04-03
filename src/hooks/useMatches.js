@@ -31,7 +31,6 @@ export default function useMatches() {
     }
   }, [leagueId]);
 
-  // 🔹 On charge les données au montage
 
   useEffect(() => {
     fetchData();
