@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useAllJoueurs from "../hooks/useAllJoueurs";
 import { getJoueurs } from "../api/joueurs";
 
@@ -10,23 +10,27 @@ const useGuessPlayer = (view) => {
   const [club, setClub] = useState([]);
   const { listeJoueur } = useAllJoueurs(view);
 
+
+  useEffect(() => {
+    if (listeJoueur.length === 0  || randomPlayer) return;
+
     
-
-  const startGame = async () => {
+      const fetchData =  () => {
+        const index = Math.floor(Math.random() * listeJoueur.length);
+        setRandomPlayer(listeJoueur[index]);
+      };
+      fetchData();
     
-    if (listeJoueur.length === 0) return;
-    const index = Math.floor(Math.random() * listeJoueur.length);
-    const player = listeJoueur[index]
-    setRandomPlayer(player);
-    setGuesses([]);
-    setCount(0);
-    setVictory(false);
+  }, [listeJoueur, randomPlayer]);
 
-    const data = await getJoueurs(player.clubId);
-
-    setClub(data);
-
-  }
+  useEffect(() => {
+    if (!randomPlayer) return;
+    const fetchClub = async () => {
+      const data = await getJoueurs(randomPlayer.clubId);
+      setClub(data);
+    };
+    fetchClub();
+  }, [randomPlayer]);
   const submitGuess = (player) => {
     if (!randomPlayer || !player) return;
 
@@ -42,6 +46,7 @@ const useGuessPlayer = (view) => {
     setRandomPlayer(null);
     setGuesses([]);
     setVictory(false);
+    setClub([]);
   };
 
   return {
@@ -49,11 +54,10 @@ const useGuessPlayer = (view) => {
     guesses,
     count,
     victory,
-    startGame,
     submitGuess,
     listeJoueur,
     resetGame,
-    club
+    club,
   };
 };
 

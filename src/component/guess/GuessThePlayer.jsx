@@ -8,24 +8,27 @@ const GuessThePlayer = () => {
   const [name, setName] = useState("");
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [view, setView] = useState("Facile");
+  const text =
+    "3 niveaux de difficulté "
+    + "Facile : représente les joueurs des 5 premier du classement de chaque championnat"
+    + "Intermediaire : représente les joueurs des 10 premier du classement de chaque championnat"
+    + "Difficile : représente l'ensemble des joueurs des championnats"
 
-  const longText = "Il y a trois niveaux de difficulté , Facile, Intermediaire et Difficile."
-  +" Le niveau facile regroupe l'ensemble des joueurs des 5 premiers de Championnats , intermediaire les 10 et difficile l'ensemble des joueurs ";
   const {
     listeJoueur,
     guesses,
-    startGame,
     randomPlayer,
     count,
     victory,
     submitGuess,
     resetGame,
-    club
-    
+    club,
   } = useGuessPlayer(view);
 
-  console.log(randomPlayer)
-  console.log(club)
+  console.log(randomPlayer);
+  console.log(listeJoueur);
+  console.log(club);
+
   const normalize = (str) =>
     str
       .toLowerCase()
@@ -55,23 +58,27 @@ const GuessThePlayer = () => {
   };
   const indice = randomPlayer
     ? [
-        { seuil: 5, text: "la nation est " + randomPlayer.nation },
+        { seuil: 1, text: "la nation est " + randomPlayer.nation },
         {
-          seuil: 7,
+          seuil: 2,
           text: (
             <>
-              le club du joueur est {" "}
-              {randomPlayer.clubName}
+              le club du joueur est {randomPlayer.clubName}
               <img className="logoStat" src={randomPlayer.logo} />
             </>
           ),
         },
         {
-          seuil : 10,
-          text : " L'age du joueur est  "  + randomPlayer.age
-        }
+          seuil: 3,
+          text: " L'age du joueur est  " + randomPlayer.age,
+        },
+        {
+          seuil: 4,
+          text: " Liste des joueurs de l'équipe  ",
+        },
       ]
     : [];
+
   const indicateur = [
     {
       item: "",
@@ -109,15 +116,12 @@ const GuessThePlayer = () => {
           <option value={"Intermediaire"}>Intermediaire</option>
           <option value={"Difficile"}>Difficile</option>
         </select>
-          <Tooltip title={longText}>
-            <Button>ℹ️</Button>
-          </Tooltip>
+        <Tooltip title={text}>
+          <Button>ℹ️</Button>
+        </Tooltip>
       </div>
 
-      <div>
-        {" "}
-        <button onClick={startGame}>Génerer joueur</button>
-      </div>
+      <div> </div>
       <div className="tentative">
         <span>Un indice toute les 5 tentatives</span>
         {indice.map((indice, i) => (
@@ -126,6 +130,7 @@ const GuessThePlayer = () => {
           </div>
         ))}
       </div>
+
 
       <div>
         {}
@@ -140,7 +145,7 @@ const GuessThePlayer = () => {
         ></GuessPlayerInput>
       </div>
 
-      <div>
+      <div className="alignement">
         {/* Affiche le joueur sélectionné avec détails */}
 
         {guesses.length > 0 && (
@@ -149,6 +154,21 @@ const GuessThePlayer = () => {
             guess={guesses}
           ></GuessAffichage>
         )}
+        <div>
+          <div>
+            <div >
+              {count >= 4 && club.length > 0 && (
+                <ul className="listJoueur">
+                  {club.map((cl) => (
+                    <li key={cl.id}>
+                      {cl.firstName} : {cl.age} : {cl.position}
+                      </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
       <div className="indicateurContainer">
         <p className="pIndicateurdeCouleur">Indicateur de couleur</p>
