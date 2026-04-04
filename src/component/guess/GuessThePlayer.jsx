@@ -20,8 +20,12 @@ const GuessThePlayer = () => {
     victory,
     submitGuess,
     resetGame,
+    club
+    
   } = useGuessPlayer(view);
 
+  console.log(randomPlayer)
+  console.log(club)
   const normalize = (str) =>
     str
       .toLowerCase()
@@ -92,8 +96,6 @@ const GuessThePlayer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view]);
 
-  console.log(listeJoueur);
-  console.log(randomPlayer);
   return (
     <>
       <div>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getClassementByLeague } from "../api/leaguesApi";
 import { useParams } from "react-router-dom";
 import { getMatchesByLeague } from "../api/matchApi";
@@ -10,34 +10,57 @@ export default function useMatches() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchData = useCallback(async () => {
+  // const fetchData = useCallback(async () => {
+  //   setLoading(true);
+  //   setError(null);
+  //   try {
+  //     const [m, c] = await Promise.all([
+  //       getMatchesByLeague(leagueId),
+  //       getClassementByLeague(leagueId),
+  //     ]);
+
+  //     setMatches(Array.isArray(m) ? m : []);
+  //     setClassement(Array.isArray(c) ? c : []);
+  //   } catch (err) {
+  //     console.error("Erreur chargement données :", err);
+  //     setError("Impossible de charger les données.");
+  //     setMatches([]);
+  //     setClassement([]);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, [leagueId]);
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, [fetchData]);
+  useEffect(() => {
     setLoading(true);
     setError(null);
-    try {
-      const [m, c] = await Promise.all([
-        getMatchesByLeague(leagueId),
-        getClassementByLeague(leagueId),
-      ]);
 
-      setMatches(Array.isArray(m) ? m : []);
-      setClassement(Array.isArray(c) ? c : []);
-    } catch (err) {
-      console.error("Erreur chargement données :", err);
-      setError("Impossible de charger les données.");
-      setMatches([]);
-      setClassement([]);
-    } finally {
-      setLoading(false);
-    }
-  }, [leagueId]);
-
-
-  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [m, c] = await Promise.all([
+          getMatchesByLeague(leagueId),
+          getClassementByLeague(leagueId),
+        ]);
+        setMatches(Array.isArray(m) ? m : []);
+        setClassement(Array.isArray(c) ? c : []);
+      } catch (err) {
+        console.error("Erreur chargement de donnée", err);
+        setError("Impossible de charger les données");
+        setMatches([]);
+        setClassement([]);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchData();
-  }, [fetchData]);
+  }, [leagueId]);
 
   // 🔹 Classement des matchs par journée
   const matchesByJournee = useMemo(() => {
+    console.log("Calcul des matches par journée"); // <- trace ici
     const sortedMatches = [...matches].sort(
       (a, b) => a.journee - b.journee || a.id - b.id,
     );
@@ -51,7 +74,6 @@ export default function useMatches() {
       result[j].push(match);
     }
 
-
     return result;
     // return sortedMatches.reduce((acc, match) => {
     //   const j = match.journee ?? "non défini";
@@ -60,7 +82,8 @@ export default function useMatches() {
 
     //   return acc;
     // }, {});
-  }, [matches]);
+  },[matches]);
+  console.log(matchesByJournee)
 
   return {
     classement,

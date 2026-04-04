@@ -9,6 +9,7 @@ const Classement = ({ classement, loading }) => {
   if (!classement || classement.length === 0)
     return <p>Aucun classement disponible.</p>;
 
+  console.log(classement)
   return (
     <div className="page">
 

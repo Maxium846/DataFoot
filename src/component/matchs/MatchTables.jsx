@@ -3,12 +3,11 @@ import "../../css/calendrier.css";
 
 const MatchTables = ({ journee, matches }) => {
   const navigate = useNavigate();
-  console.log(matches)
-  console.log(journee)
 
   if (!matches || matches.length === 0)
     return <p>Aucun match pour cette journée.</p>;
 
+  console.log(matches)
   return (
     <div className="calendar-card">
       <h2 className="calendar-title">Journée {journee}</h2>
